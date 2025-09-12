@@ -1,7 +1,16 @@
 // src/components/home/ValueProposition.tsx
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { Globe, Users, Shield, Zap, LineChart, BookOpen } from "lucide-react";
+import { motion, useScroll, useTransform, Variants } from "framer-motion";
+import {
+    Globe,
+    Users,
+    Shield,
+    FileText,
+    BarChart2,
+    BookOpen,
+    Scale,
+    Clock
+} from "lucide-react";
 
 const ValueProposition = () => {
     const sectionRef = useRef(null);
@@ -15,40 +24,70 @@ const ValueProposition = () => {
     const y = useTransform(scrollYProgress, [0, 1], [50, -50]);
     const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
+    // Animation variants
+    const containerVariants: Variants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.15,
+                delayChildren: 0.1
+            }
+        }
+    };
+
+    const itemVariants: Variants = {
+        hidden: { opacity: 0, y: 30 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.7,
+                ease: [0.22, 1, 0.36, 1]
+            }
+        }
+    };
+
     // Introduction paragraph
     const introParagraph = "In a crowded wealth management landscape, differentiation is hard. Clients are looking for credibility, trust, and expertise — not aggressive sales tactics. That's where we come in.";
 
-    // Value proposition data
+    // Value proposition data - expanded with wealth management specific pain points
     const propositions = [
         {
+            icon: <Shield className="w-8 h-8" />,
+            title: "Compliance-Aware Marketing",
+            description: "Navigate complex SEC and FINRA regulations with marketing that builds trust while maintaining full regulatory compliance.",
+            color: "#4F6BFF"
+        },
+        {
             icon: <Globe className="w-8 h-8" />,
-            title: "Strengthen Digital Presence",
-            description: "Establish a professional online footprint that reflects your expertise and values, attracting ideal clients through search optimization and strategic content."
+            title: "Digital Presence Enhancement",
+            description: "Establish a professional online footprint that reflects your expertise and values, attracting ideal clients through search optimization.",
+            color: "#6366F1"
         },
         {
             icon: <Users className="w-8 h-8" />,
-            title: "Generate Qualified Leads",
-            description: "Create targeted campaigns that connect with high-net-worth individuals and institutions seeking wealth management services."
+            title: "High-Value Lead Generation",
+            description: "Create targeted campaigns that connect with high-net-worth individuals and institutions seeking wealth management services.",
+            color: "#8B5CF6"
         },
         {
-            icon: <Shield className="w-8 h-8" />,
-            title: "Build Trust with Prospects",
-            description: "Develop compliance-aware content that demonstrates expertise while nurturing long-term relationships built on credibility and value."
+            icon: <FileText className="w-8 h-8" />,
+            title: "Trust-Building Content",
+            description: "Develop educational content that demonstrates expertise while nurturing long-term relationships built on credibility and value.",
+            color: "#EC4899"
         },
         {
-            icon: <LineChart className="w-8 h-8" />,
-            title: "Scale Your Outreach",
-            description: "Implement systems that allow your firm to consistently engage with prospects and clients while maintaining a personal touch."
+            icon: <BarChart2 className="w-8 h-8" />,
+            title: "Data-Driven ROI",
+            description: "Implement measurable marketing strategies with clear metrics and reporting tailored to wealth management KPIs.",
+            color: "#4F6BFF"
         },
         {
             icon: <BookOpen className="w-8 h-8" />,
-            title: "Industry Knowledge",
-            description: "Work with specialists who understand wealth management, compliance requirements, and how to effectively communicate complex financial concepts."
-        },
-        {
-            icon: <Zap className="w-8 h-8" />,
-            title: "Efficient Execution",
-            description: "Get marketing initiatives implemented with our lean team approach, combining strategy expertise with efficient project management."
+            title: "Industry-Specific Expertise",
+            description: "Work with specialists who understand wealth management terminology, client needs, and how to communicate complex financial concepts.",
+            color: "#6366F1"
         }
     ];
 
@@ -65,11 +104,27 @@ const ValueProposition = () => {
                 style={{ opacity }}
             />
 
+            {/* Subtle grid pattern */}
+            <div className="absolute inset-0 opacity-[0.015]" style={{
+                backgroundImage: "linear-gradient(#4F6BFF 1px, transparent 1px), linear-gradient(to right, #4F6BFF 1px, transparent 1px)",
+                backgroundSize: "40px 40px"
+            }}></div>
+
             <div className="container mx-auto px-6 relative z-10">
                 <motion.div
                     className="text-center mb-16 md:mb-20"
                     style={{ y, opacity }}
                 >
+                    <motion.span
+                        className="inline-block py-1 px-3 bg-ph/10 text-ph font-medium rounded-full text-sm mb-6"
+                        initial={{ opacity: 0, y: -10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.1, duration: 0.5 }}
+                    >
+                        Our Value Proposition
+                    </motion.span>
+
                     <h2 className="text-3xl md:text-4xl font-display font-light tracking-tight text-foreground mb-6">
                         How We <span className="text-ph font-normal">Help You Grow</span>
                     </h2>
@@ -78,23 +133,149 @@ const ValueProposition = () => {
                     </p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <motion.div
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-50px" }}
+                >
                     {propositions.map((prop, index) => (
                         <motion.div
                             key={index}
-                            className="bg-white rounded-xl p-8 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300"
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-50px" }}
-                            transition={{ delay: 0.1 * index, duration: 0.5 }}
-                            whileHover={{ y: -5 }}
+                            className="relative"
+                            variants={itemVariants}
                         >
-                            <div className="text-ph mb-4">{prop.icon}</div>
-                            <h3 className="text-xl font-medium text-foreground mb-3">{prop.title}</h3>
-                            <p className="text-muted-foreground">{prop.description}</p>
+                            <motion.div
+                                className="glass-card rounded-xl overflow-hidden h-full flex flex-col hover:shadow-lg transition-all duration-500 bg-white"
+                                whileHover={{
+                                    y: -8,
+                                    boxShadow: "0 20px 40px rgba(79, 107, 255, 0.1)",
+                                    transition: { duration: 0.3 }
+                                }}
+                            >
+                                {/* Card header with gradient */}
+                                <div className={`p-8 bg-gradient-to-br from-[${prop.color}]/10 to-transparent`}>
+                                    <div className="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center text-[#4F6BFF] mb-5 shadow-sm">
+                                        {prop.icon}
+                                    </div>
+                                    <h3 className="text-xl font-medium text-foreground mb-3">
+                                        {prop.title}
+                                    </h3>
+                                </div>
+
+                                {/* Card content */}
+                                <div className="p-8 pt-4 flex-grow">
+                                    <p className="text-muted-foreground leading-relaxed">
+                                        {prop.description}
+                                    </p>
+                                </div>
+
+                                {/* Decorative accent at bottom */}
+                                <div className="h-1 w-full bg-gradient-to-r" style={{
+                                    backgroundImage: `linear-gradient(to right, ${prop.color}, ${prop.color}00)`
+                                }}></div>
+                            </motion.div>
                         </motion.div>
                     ))}
-                </div>
+                </motion.div>
+
+                {/* Wealth Management Unique Challenges Section */}
+                <motion.div
+                    className="mt-24 max-w-4xl mx-auto"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.7 }}
+                >
+                    <div className="glass-card rounded-xl p-10 border border-ph/10 relative overflow-hidden">
+                        {/* Background decoration */}
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-ph/10 to-transparent rounded-bl-[100px] -z-10"></div>
+
+                        <div className="text-center mb-8">
+                            <h3 className="text-2xl font-display font-light text-foreground mb-3">
+                                Why Wealth Management Marketing <span className="text-ph">Is Different</span>
+                            </h3>
+                            <p className="text-muted-foreground">
+                                Wealth management requires a specialized approach to marketing that acknowledges these unique challenges:
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                            <motion.div
+                                className="flex items-start gap-4"
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: 0.1, duration: 0.6 }}
+                            >
+                                <div className="w-10 h-10 rounded-full bg-ph/10 flex items-center justify-center text-ph flex-shrink-0 mt-1">
+                                    <Scale className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <h4 className="font-medium text-foreground mb-2">Regulatory Oversight</h4>
+                                    <p className="text-sm text-muted-foreground">
+                                        Marketing must adhere to SEC and FINRA regulations while still being effective and engaging.
+                                    </p>
+                                </div>
+                            </motion.div>
+
+                            <motion.div
+                                className="flex items-start gap-4"
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: 0.2, duration: 0.6 }}
+                            >
+                                <div className="w-10 h-10 rounded-full bg-ph/10 flex items-center justify-center text-ph flex-shrink-0 mt-1">
+                                    <Clock className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <h4 className="font-medium text-foreground mb-2">Extended Sales Cycles</h4>
+                                    <p className="text-sm text-muted-foreground">
+                                        Client acquisition often takes 6-18 months, requiring sustained nurturing and relationship building.
+                                    </p>
+                                </div>
+                            </motion.div>
+
+                            <motion.div
+                                className="flex items-start gap-4"
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: 0.3, duration: 0.6 }}
+                            >
+                                <div className="w-10 h-10 rounded-full bg-ph/10 flex items-center justify-center text-ph flex-shrink-0 mt-1">
+                                    <Shield className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <h4 className="font-medium text-foreground mb-2">Trust Requirements</h4>
+                                    <p className="text-sm text-muted-foreground">
+                                        Clients need to feel absolute confidence before entrusting their wealth to your management.
+                                    </p>
+                                </div>
+                            </motion.div>
+
+                            <motion.div
+                                className="flex items-start gap-4"
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: 0.4, duration: 0.6 }}
+                            >
+                                <div className="w-10 h-10 rounded-full bg-ph/10 flex items-center justify-center text-ph flex-shrink-0 mt-1">
+                                    <Users className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <h4 className="font-medium text-foreground mb-2">Sophisticated Clientele</h4>
+                                    <p className="text-sm text-muted-foreground">
+                                        High-net-worth individuals and institutions expect elevated marketing that reflects their sophistication.
+                                    </p>
+                                </div>
+                            </motion.div>
+                        </div>
+                    </div>
+                </motion.div>
             </div>
         </section>
     );

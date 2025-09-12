@@ -1,7 +1,14 @@
 // src/components/home/CTASection.tsx
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Shield, FileText, Users, BarChart2, Briefcase, CheckCircle } from "lucide-react";
+import {
+    ArrowRight,
+    Shield,
+    FileText,
+    Users,
+    BarChart2,
+    CheckCircle
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
 const CTASection = () => {
@@ -10,7 +17,7 @@ const CTASection = () => {
         {
             title: "Industry Expertise",
             description: "Deep understanding of wealth management marketing requirements",
-            icon: <Briefcase className="w-5 h-5" />
+            icon: <FileText className="w-5 h-5" />
         },
         {
             title: "Compliance-Aware",
@@ -23,11 +30,6 @@ const CTASection = () => {
             icon: <BarChart2 className="w-5 h-5" />
         },
         {
-            title: "Content Expertise",
-            description: "Specialized knowledge in financial services communication",
-            icon: <FileText className="w-5 h-5" />
-        },
-        {
             title: "Client-Focused",
             description: "Strategies tailored to your firm's unique positioning and goals",
             icon: <Users className="w-5 h-5" />
@@ -35,7 +37,7 @@ const CTASection = () => {
     ];
 
     return (
-        <section className="py-28 relative overflow-hidden">
+        <section className="py-24 md:py-32 relative overflow-hidden">
             {/* Rich gradient background with deeper colors */}
             <div className="absolute inset-0 bg-gradient-to-r from-ph/95 to-[#3A56E8] pointer-events-none"></div>
 
@@ -48,6 +50,11 @@ const CTASection = () => {
                 <div className="absolute top-[20%] left-[10%] w-32 h-32 rounded-full border border-white/15"></div>
                 <div className="absolute bottom-[30%] right-[15%] w-24 h-24 rounded-full border border-white/15"></div>
                 <div className="absolute top-[60%] left-[30%] w-16 h-16 rounded-full border border-white/15"></div>
+
+                {/* Wave effect */}
+                <svg className="absolute bottom-0 left-0 w-full h-24 opacity-[0.07]" preserveAspectRatio="none" viewBox="0 0 1440 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0,0 C288,0 432,54 720,54 C1008,54 1152,0 1440,0 L1440,54 L0,54 L0,0 Z" fill="white"></path>
+                </svg>
             </div>
 
             <div className="container mx-auto px-6 relative z-10">
@@ -69,7 +76,7 @@ const CTASection = () => {
 
                     {/* Value Propositions */}
                     <motion.div
-                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16"
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16"
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
@@ -86,7 +93,7 @@ const CTASection = () => {
                                 whileHover={{ y: -5, backgroundColor: "rgba(255, 255, 255, 0.15)" }}
                             >
                                 <div className="flex items-start">
-                                    <div className="mr-4 mt-1 bg-white/20 p-2 rounded-lg">
+                                    <div className="mr-4 mt-1 bg-white/20 p-2.5 rounded-lg text-white">
                                         {prop.icon}
                                     </div>
                                     <div>

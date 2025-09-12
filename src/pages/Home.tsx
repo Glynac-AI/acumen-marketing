@@ -3,7 +3,8 @@ import React from "react";
 import HeroSection from "@/components/home/HeroSection";
 import ValueProposition from "@/components/home/ValueProposition";
 import ServicesShowcase from "@/components/home/ServicesShowcase";
-import ClientPerspectives from "@/components/home/ClientPerspectives";
+import InsightsSection from "@/components/home/InsightsSection";
+import ApproachSection from "@/components/home/ApproachSection";
 import CTASection from "@/components/home/CTASection";
 
 const Home = () => {
@@ -12,7 +13,8 @@ const Home = () => {
             <HeroSection />
             <ValueProposition />
             <ServicesShowcase />
-            <ClientPerspectives />
+            <InsightsSection />
+            <ApproachSection />
             <CTASection />
         </>
     );
