@@ -1,6 +1,6 @@
 // src/components/home/ValueProposition.tsx
-import { useRef } from "react";
-import { motion, useScroll, useTransform, Variants } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import {
     Globe,
     Users,
@@ -25,7 +25,7 @@ const ValueProposition = () => {
     const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
     // Animation variants
-    const containerVariants: Variants = {
+    const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
             opacity: 1,
@@ -36,14 +36,13 @@ const ValueProposition = () => {
         }
     };
 
-    const itemVariants: Variants = {
+    const itemVariants = {
         hidden: { opacity: 0, y: 30 },
         visible: {
             opacity: 1,
             y: 0,
             transition: {
-                duration: 0.7,
-                ease: [0.22, 1, 0.36, 1]
+                duration: 0.7
             }
         }
     };
@@ -93,7 +92,7 @@ const ValueProposition = () => {
 
     return (
         <section className="py-24 md:py-32 relative overflow-hidden" ref={sectionRef}>
-            {/* Background design elements */}
+            {/* Background design elements - keeping the original, elegant background */}
             <motion.div
                 className="absolute inset-0 bg-gradient-to-b from-background to-gray-50 pointer-events-none"
                 style={{ opacity }}
@@ -147,40 +146,38 @@ const ValueProposition = () => {
                             variants={itemVariants}
                         >
                             <motion.div
-                                className="glass-card rounded-xl overflow-hidden h-full flex flex-col hover:shadow-lg transition-all duration-500 bg-white"
+                                className="rounded-xl overflow-hidden h-full flex flex-col bg-white border border-gray-100 shadow-sm"
                                 whileHover={{
                                     y: -8,
-                                    boxShadow: "0 20px 40px rgba(79, 107, 255, 0.1)",
+                                    boxShadow: "0 15px 30px rgba(79, 107, 255, 0.08)",
                                     transition: { duration: 0.3 }
                                 }}
                             >
-                                {/* Card header with gradient */}
-                                <div className={`p-8 bg-gradient-to-br from-[${prop.color}]/10 to-transparent`}>
-                                    <div className="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center text-[#4F6BFF] mb-5 shadow-sm">
-                                        {prop.icon}
+                                {/* Improved card header */}
+                                <div className="px-8 pt-8 pb-4">
+                                    <div className="flex items-center mb-4">
+                                        <div className="w-12 h-12 rounded-lg bg-ph/10 flex items-center justify-center text-ph mr-4">
+                                            {prop.icon}
+                                        </div>
+                                        <h3 className="text-xl font-medium text-[#0A2540]">
+                                            {prop.title}
+                                        </h3>
                                     </div>
-                                    <h3 className="text-xl font-medium text-foreground mb-3">
-                                        {prop.title}
-                                    </h3>
                                 </div>
 
-                                {/* Card content */}
-                                <div className="p-8 pt-4 flex-grow">
+                                {/* Card content with refined design */}
+                                <div className="px-8 pb-8 flex-grow">
+                                    <div className="h-px w-16 bg-ph/20 mb-5"></div>
                                     <p className="text-muted-foreground leading-relaxed">
                                         {prop.description}
                                     </p>
                                 </div>
-
-                                {/* Decorative accent at bottom */}
-                                <div className="h-1 w-full bg-gradient-to-r" style={{
-                                    backgroundImage: `linear-gradient(to right, ${prop.color}, ${prop.color}00)`
-                                }}></div>
                             </motion.div>
                         </motion.div>
                     ))}
                 </motion.div>
 
-                {/* Wealth Management Unique Challenges Section */}
+                {/* Wealth Management Unique Challenges Section - keeping the original design */}
                 <motion.div
                     className="mt-24 max-w-4xl mx-auto"
                     initial={{ opacity: 0, y: 30 }}
