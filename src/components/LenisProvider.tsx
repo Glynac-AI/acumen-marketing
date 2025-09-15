@@ -6,15 +6,19 @@ interface LenisProviderProps {
     children: React.ReactNode;
 }
 
-const LenisProvider: React.FC<LenisProviderProps> = ({ children }) => {
+export const LenisProvider: React.FC<LenisProviderProps> = ({ children }) => {
     useEffect(() => {
+        // More sophisticated Lenis configuration for premium feel
         const lenis = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             orientation: "vertical",
-            smoothWheel: true,
+            smoothWheel: true, // Disable for touch devices for better performance
+            touchMultiplier: 1.5,
+            wheelMultiplier: 1.15,
         });
 
+        // Connect Lenis to requestAnimationFrame for smoother rendering
         function raf(time: number) {
             lenis.raf(time);
             requestAnimationFrame(raf);
@@ -22,8 +26,17 @@ const LenisProvider: React.FC<LenisProviderProps> = ({ children }) => {
 
         requestAnimationFrame(raf);
 
+        // Update Lenis when window resizes
+        const resizeObserver = new ResizeObserver(() => {
+            lenis.resize();
+        });
+
+        resizeObserver.observe(document.body);
+
+        // Cleanup
         return () => {
             lenis.destroy();
+            resizeObserver.disconnect();
         };
     }, []);
 

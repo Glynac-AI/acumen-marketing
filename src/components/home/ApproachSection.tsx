@@ -1,17 +1,20 @@
 // src/components/home/ApproachSection.tsx
-import React, { useRef } from "react";
-import { motion, useScroll, useTransform, Variants } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Link } from "react-router-dom";
 import {
     Search,
     Lightbulb,
     FileCode,
     BarChart,
-    ChevronRight
+    ArrowRight,
+    ArrowUpRight,
+    CheckCircle
 } from "lucide-react";
-import { Link } from "react-router-dom";
 
 const ApproachSection = () => {
-    const sectionRef = useRef(null);
+    const sectionRef = useRef<HTMLElement>(null);
+    const [activeStep, setActiveStep] = useState(0);
 
     // Scroll-based animations
     const { scrollYProgress } = useScroll({
@@ -19,64 +22,64 @@ const ApproachSection = () => {
         offset: ["start end", "end start"]
     });
 
-    // Parallax effects
+    // Parallax and opacity effects
     const backgroundY = useTransform(scrollYProgress, [0, 1], [0, 50]);
     const titleOpacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
     const titleY = useTransform(scrollYProgress, [0, 0.2], [50, 0]);
 
-    // Animation variants
-    const containerVariants: Variants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.15,
-                delayChildren: 0.1
-            }
-        }
-    };
-
-    const itemVariants: Variants = {
-        hidden: { opacity: 0, y: 30 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 0.7,
-                ease: [0.22, 1, 0.36, 1]
-            }
-        }
-    };
-
-    // Approach steps
+    // Approach steps with structured data
     const steps = [
         {
+            number: "01",
             icon: <Search className="w-6 h-6" />,
             title: "Discovery",
-            description: "We begin with a deep dive into your firm's unique positioning, target clients, and business goals. This research phase includes a competitive analysis and compliance requirements review.",
-            number: "01",
+            description: "We begin with a deep dive into your firm's unique positioning, target clients, and business goals.",
+            details: [
+                "Analyze your current marketing assets and performance",
+                "Identify your ideal client profile and target segments",
+                "Assess competitive landscape and positioning opportunities",
+                "Review compliance requirements specific to your firm"
+            ],
             color: "#4F6BFF"
         },
         {
+            number: "02",
             icon: <Lightbulb className="w-6 h-6" />,
             title: "Strategy",
-            description: "Based on our findings, we craft a comprehensive marketing strategy tailored to your wealth management firm's needs, focusing on the channels and tactics that will reach your ideal clients.",
-            number: "02",
-            color: "#6366F1"
+            description: "Based on our findings, we craft a comprehensive marketing strategy tailored to your wealth management firm's needs.",
+            details: [
+                "Define clear marketing objectives aligned with business goals",
+                "Create messaging that resonates with high-net-worth clients",
+                "Select optimal channels for your specific audience",
+                "Develop a content calendar and campaign roadmap"
+            ],
+            color: "#4F6BFF"
         },
         {
+            number: "03",
             icon: <FileCode className="w-6 h-6" />,
             title: "Implementation",
-            description: "Our team executes the strategy with meticulous attention to compliance requirements and industry regulations, ensuring all marketing activities align with SEC and FINRA guidelines.",
-            number: "03",
-            color: "#8B5CF6"
+            description: "Our team executes the strategy with meticulous attention to compliance requirements and industry regulations.",
+            details: [
+                "Create compelling, compliance-approved content",
+                "Deploy campaigns across selected channels",
+                "Optimize your digital presence for qualified lead generation",
+                "Implement tracking and analytics to measure performance"
+            ],
+            color: "#4F6BFF"
         },
         {
+            number: "04",
             icon: <BarChart className="w-6 h-6" />,
             title: "Measurement",
-            description: "We track key performance metrics and provide transparent reporting on all marketing activities, allowing you to see clear ROI and make data-driven decisions about future investments.",
-            number: "04",
-            color: "#EC4899"
+            description: "We track key performance metrics and provide transparent reporting on all marketing activities.",
+            details: [
+                "Monitor campaign performance with custom dashboards",
+                "Track ROI and cost-per-acquisition metrics",
+                "Analyze lead quality and conversion rates",
+                "Make data-driven optimizations to improve results"
+            ],
+            color: "#4F6BFF"
         }
     ];
 
@@ -84,22 +87,21 @@ const ApproachSection = () => {
         <section
             ref={sectionRef}
             className="py-24 md:py-32 relative overflow-hidden bg-white"
+            id="approach"
         >
             {/* Background elements */}
-            <motion.div
-                className="absolute inset-0 bg-gradient-to-b from-white to-gray-50/30 pointer-events-none"
-                style={{ y: backgroundY }}
-            />
+            <div className="absolute inset-0 bg-gradient-to-b from-white to-[#F8FAFF] pointer-events-none"></div>
 
-            {/* Subtle pattern */}
+            {/* Decorative dots grid pattern */}
             <div className="absolute inset-0 opacity-[0.02]" style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-                backgroundSize: '200px'
-            }} />
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%234F6BFF' fill-opacity='0.8'%3E%3Ccircle cx='10' cy='10' r='1'/%3E%3C/g%3E%3C/svg%3E")`,
+                backgroundSize: '20px'
+            }}></div>
 
             <div className="container mx-auto px-6 relative z-10">
+                {/* Section header */}
                 <motion.div
-                    className="text-center mb-16"
+                    className="text-center mb-20"
                     style={{ opacity: titleOpacity, y: titleY }}
                 >
                     <motion.span
@@ -113,13 +115,13 @@ const ApproachSection = () => {
                     </motion.span>
 
                     <motion.h2
-                        className="text-3xl md:text-4xl font-display font-light tracking-tight text-foreground mb-6"
+                        className="text-4xl md:text-5xl font-display font-light tracking-tight text-foreground mb-6"
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.7 }}
                     >
-                        A Structured <span className="text-ph font-normal">Approach</span>
+                        A Structured <span className="text-ph">Approach</span>
                     </motion.h2>
 
                     <motion.p
@@ -133,128 +135,225 @@ const ApproachSection = () => {
                     </motion.p>
                 </motion.div>
 
-                {/* Process Visualization */}
-                <motion.div
-                    className="max-w-5xl mx-auto"
-                    variants={containerVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-50px" }}
-                >
-                    {/* Desktop Process Flow */}
-                    <div className="hidden lg:block relative">
-                        {/* Connecting Line */}
-                        <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gray-100 -translate-y-1/2 z-0"></div>
+                {/* Main approach section with interactive elements */}
+                <div className="max-w-6xl mx-auto">
+                    {/* Interactive step selector - elegant horizontal timeline */}
+                    <div className="hidden md:block mb-16">
+                        <div className="relative flex justify-between items-center">
+                            {/* Connecting line */}
+                            <div className="absolute left-0 right-0 h-px bg-gray-200"></div>
 
-                        <div className="grid grid-cols-4 gap-6 relative z-10">
                             {steps.map((step, index) => (
                                 <motion.div
                                     key={index}
-                                    variants={itemVariants}
-                                    className="flex flex-col items-center"
+                                    className="relative z-10"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.5, delay: index * 0.1 }}
                                 >
-                                    {/* Number Circle */}
-                                    <motion.div
-                                        className="w-16 h-16 rounded-full bg-white border border-gray-200 flex items-center justify-center text-lg font-light text-foreground mb-6 relative z-20"
-                                        whileHover={{
-                                            scale: 1.05,
-                                            boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)",
-                                            borderColor: `${step.color}50`
-                                        }}
+                                    <button
+                                        className="flex flex-col items-center"
+                                        onClick={() => setActiveStep(index)}
                                     >
-                                        {step.number}
-                                    </motion.div>
-
-                                    {/* Content Card */}
-                                    <motion.div
-                                        className="bg-white rounded-xl shadow-sm p-6 border border-gray-100 h-full w-full"
-                                        whileHover={{
-                                            y: -5,
-                                            boxShadow: "0 20px 40px -5px rgba(0, 0, 0, 0.1)",
-                                            borderColor: `${step.color}30`
-                                        }}
-                                    >
-                                        <div className="flex flex-col items-center text-center">
-                                            <div className="w-12 h-12 rounded-full bg-ph/10 flex items-center justify-center text-ph mb-4">
-                                                {step.icon}
-                                            </div>
-                                            <h3 className="text-lg font-medium text-foreground mb-3">
-                                                {step.title}
-                                            </h3>
-                                            <p className="text-sm text-muted-foreground">
-                                                {step.description}
-                                            </p>
+                                        {/* Step number circle */}
+                                        <div
+                                            className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all duration-300 border-2 ${activeStep === index
+                                                    ? 'bg-ph border-ph text-white'
+                                                    : 'bg-white border-gray-200 text-muted-foreground hover:border-ph/50'
+                                                }`}
+                                        >
+                                            <span className="text-lg font-medium">{step.number}</span>
                                         </div>
-                                    </motion.div>
+
+                                        {/* Step title */}
+                                        <span
+                                            className={`font-medium transition-colors duration-300 ${activeStep === index ? 'text-ph' : 'text-muted-foreground'
+                                                }`}
+                                        >
+                                            {step.title}
+                                        </span>
+                                    </button>
                                 </motion.div>
                             ))}
                         </div>
                     </div>
 
-                    {/* Mobile Process List */}
-                    <div className="lg:hidden space-y-8">
-                        {steps.map((step, index) => (
-                            <motion.div
-                                key={index}
-                                variants={itemVariants}
-                                className="relative"
-                            >
-                                {/* Connecting line */}
-                                {index < steps.length - 1 && (
-                                    <div className="absolute top-[60px] bottom-0 left-[28px] w-0.5 bg-gray-100 z-0"></div>
-                                )}
+                    {/* Mobile step selector */}
+                    <div className="md:hidden mb-10">
+                        <div className="flex overflow-x-auto pb-4 space-x-4 hide-scrollbar">
+                            {steps.map((step, index) => (
+                                <button
+                                    key={index}
+                                    className={`flex items-center px-4 py-2 whitespace-nowrap rounded-full transition-colors ${activeStep === index
+                                            ? 'bg-ph text-white'
+                                            : 'bg-white border border-gray-200 text-muted-foreground'
+                                        }`}
+                                    onClick={() => setActiveStep(index)}
+                                >
+                                    <span className="mr-2">{step.number}</span>
+                                    <span>{step.title}</span>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
 
-                                <div className="flex">
-                                    {/* Number Circle */}
-                                    <motion.div
-                                        className="w-14 h-14 rounded-full bg-white border border-gray-200 flex items-center justify-center text-lg font-light text-foreground mr-5 relative z-10"
-                                        whileHover={{ scale: 1.05, borderColor: `${step.color}50` }}
-                                    >
-                                        {step.number}
-                                    </motion.div>
-
-                                    {/* Content */}
-                                    <div className="flex-1">
-                                        <div className="flex items-center mb-3">
-                                            <div className="w-10 h-10 rounded-full bg-ph/10 flex items-center justify-center text-ph mr-3">
-                                                {step.icon}
-                                            </div>
-                                            <h3 className="text-lg font-medium text-foreground">
-                                                {step.title}
-                                            </h3>
+                    {/* Detailed step content with elegant transitions */}
+                    <motion.div
+                        key={`step-${activeStep}`}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="bg-white border border-gray-200 rounded-sm overflow-hidden"
+                    >
+                        <div className="p-10 md:p-16">
+                            <div className="flex flex-col md:flex-row md:items-start gap-10 md:gap-16">
+                                {/* Step header section */}
+                                <div className="md:w-2/5">
+                                    <div className="flex items-center mb-6">
+                                        <div
+                                            className="w-16 h-16 rounded-full bg-ph/10 flex items-center justify-center mr-5 text-ph"
+                                        >
+                                            {steps[activeStep].icon}
                                         </div>
-                                        <p className="text-muted-foreground">
-                                            {step.description}
-                                        </p>
+                                        <div>
+                                            <div className="text-sm font-medium text-ph uppercase tracking-wider mb-1">Step {steps[activeStep].number}</div>
+                                            <h3 className="text-2xl font-medium text-foreground">{steps[activeStep].title}</h3>
+                                        </div>
+                                    </div>
+
+                                    <p className="text-lg text-muted-foreground mb-6">
+                                        {steps[activeStep].description}
+                                    </p>
+
+                                    {/* Action buttons for each step */}
+                                    <div className="hidden md:block">
+                                        <Link
+                                            to="/about#approach"
+                                            className="inline-flex items-center group text-ph hover:text-ph-dark transition-colors"
+                                        >
+                                            <span>Learn more about our approach</span>
+                                            <ArrowUpRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+                                        </Link>
                                     </div>
                                 </div>
+
+                                {/* Step details section */}
+                                <div className="md:w-3/5 bg-[#F8FAFF] p-8 rounded-sm">
+                                    <h4 className="text-lg font-medium text-foreground mb-6">What happens in this phase:</h4>
+
+                                    <ul className="space-y-4">
+                                        {steps[activeStep].details.map((detail, idx) => (
+                                            <motion.li
+                                                key={idx}
+                                                className="flex items-start"
+                                                initial={{ opacity: 0, x: -10 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ duration: 0.3, delay: 0.2 + (idx * 0.1) }}
+                                            >
+                                                <CheckCircle className="w-5 h-5 text-ph mr-3 mt-0.5 flex-shrink-0" />
+                                                <span className="text-muted-foreground">{detail}</span>
+                                            </motion.li>
+                                        ))}
+                                    </ul>
+
+                                    {/* Step navigation */}
+                                    <div className="mt-8 pt-6 border-t border-gray-200 flex justify-between">
+                                        <button
+                                            className={`text-sm flex items-center ${activeStep > 0 ? 'text-ph hover:text-ph-dark' : 'text-gray-300 cursor-not-allowed'}`}
+                                            onClick={() => activeStep > 0 && setActiveStep(activeStep - 1)}
+                                            disabled={activeStep === 0}
+                                        >
+                                            <ArrowRight className="w-4 h-4 mr-2 rotate-180" />
+                                            <span>Previous Step</span>
+                                        </button>
+
+                                        <button
+                                            className={`text-sm flex items-center ${activeStep < steps.length - 1 ? 'text-ph hover:text-ph-dark' : 'text-gray-300 cursor-not-allowed'}`}
+                                            onClick={() => activeStep < steps.length - 1 && setActiveStep(activeStep + 1)}
+                                            disabled={activeStep === steps.length - 1}
+                                        >
+                                            <span>Next Step</span>
+                                            <ArrowRight className="w-4 h-4 ml-2" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* Mobile CTA */}
+                    <div className="md:hidden mt-8 text-center">
+                        <Link
+                            to="/about#approach"
+                            className="inline-flex items-center text-ph hover:text-ph-dark transition-colors"
+                        >
+                            <span>Learn more about our approach</span>
+                            <ArrowRight className="ml-2 w-4 h-4" />
+                        </Link>
+                    </div>
+                </div>
+
+                {/* Results showcase */}
+                <div className="max-w-5xl mx-auto mt-24">
+                    <motion.div
+                        className="text-center mb-12"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7 }}
+                    >
+                        <h3 className="text-3xl font-display font-light text-foreground mb-4">
+                            The <span className="text-ph">Results</span> Speak for Themselves
+                        </h3>
+                        <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+                            Our structured approach has helped wealth management firms achieve measurable growth
+                        </p>
+                    </motion.div>
+
+                    {/* Results metrics in elegant cards */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {[
+                            { metric: "32%", label: "Average AUM Growth", detail: "For firms implementing our full-service marketing approach" },
+                            { metric: "3.5×", label: "Lead Quality Improvement", detail: "Higher conversion rates from marketing-qualified leads" },
+                            { metric: "68%", label: "Digital Engagement Increase", detail: "Across website, email, and social media channels" }
+                        ].map((item, index) => (
+                            <motion.div
+                                key={index}
+                                className="bg-white p-8 border border-gray-200 flex flex-col items-center text-center"
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                whileHover={{ y: -5, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)" }}
+                            >
+                                <div className="text-5xl font-display font-light text-ph mb-3">{item.metric}</div>
+                                <div className="text-lg font-medium text-foreground mb-2">{item.label}</div>
+                                <p className="text-sm text-muted-foreground">{item.detail}</p>
                             </motion.div>
                         ))}
                     </div>
-                </motion.div>
 
-                {/* CTA Button */}
-                <motion.div
-                    className="text-center mt-16"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.5, duration: 0.5 }}
-                >
+                    {/* Final CTA */}
                     <motion.div
-                        whileHover={{ y: -3 }}
-                        whileTap={{ scale: 0.98 }}
+                        className="text-center mt-16"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7 }}
                     >
                         <Link
-                            to="/about"
-                            className="inline-flex items-center gap-2 px-8 py-3 bg-ph/10 text-ph font-medium rounded-lg hover:bg-ph/20 transition-colors"
+                            to="/contact"
+                            className="inline-flex items-center px-8 py-3 bg-ph text-white font-medium transition-all"
                         >
-                            Learn More About Our Approach
-                            <ChevronRight className="w-5 h-5" />
+                            Schedule a Strategy Consultation
+                            <ArrowRight className="ml-2 w-5 h-5" />
                         </Link>
                     </motion.div>
-                </motion.div>
+                </div>
             </div>
+
+            
         </section>
     );
 };
