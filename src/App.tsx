@@ -5,10 +5,10 @@ import Footer from "@/components/layout/Footer";
 
 // Import page components
 import Home from "@/pages/Home";
-import { AnimationProvider } from './components/AnimationProvider';
-import LenisProvider from "./components/LenisProvider";
-import { PageTransition } from "./components/PageTransition";
-import { ScrollIndicator } from "./components/ScrollIndicator";
+import { AnimationProvider } from './components/animations/AnimationProvider';
+import LenisProvider from "./components/animations/LenisProvider";
+import { PageTransition } from "./components/animations/PageTransition";
+import { ScrollIndicator } from "./components/animations/ScrollIndicator";
 
 
 const App = () => (

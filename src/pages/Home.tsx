@@ -1,11 +1,11 @@
 // src/pages/Home.tsx
 import React, { useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useAnimation } from "@/components/AnimationProvider";
+import { useAnimation } from "@/components/animations/AnimationProvider";
 
 
-import ParallaxSection from "@/components/ParallaxSection";
-import { SectionReveal } from "@/components/SectionReveal";
+import ParallaxSection from "@/components/animations/ParallaxSection";
+import { SectionReveal } from "@/components/animations/SectionReveal";
 
 // Import your sections
 import HeroSection from "@/components/home/HeroSection";
