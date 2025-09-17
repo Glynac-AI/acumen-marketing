@@ -13,14 +13,12 @@ import Contact from "@/pages/Contact";
 import { AnimationProvider } from './components/animations/AnimationProvider';
 import LenisProvider from "./components/animations/LenisProvider";
 import { PageTransition } from "./components/animations/PageTransition";
-import { ScrollIndicator } from "./components/animations/ScrollIndicator";
 
 
 const App = () => (
   <BrowserRouter>
     <LenisProvider>
       <AnimationProvider>
-        <ScrollIndicator />
         <PageTransition>
           <div className="flex flex-col min-h-screen">
             <Navbar />
