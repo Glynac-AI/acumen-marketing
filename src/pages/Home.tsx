@@ -1,168 +1,81 @@
 // src/pages/Home.tsx
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useAnimation } from "@/components/animations/AnimationProvider";
 
-
-import ParallaxSection from "@/components/animations/ParallaxSection";
-import { SectionReveal } from "@/components/animations/SectionReveal";
-
-// Import your sections
+// Import enhanced components
 import HeroSection from "@/components/home/HeroSection";
-import ValueProposition from "@/components/home/ValueProposition";
-import ServicesShowcase from "@/components/home/ServicesShowcase";
+import ServicesOverview from "@/components/home/ServicesOverview";
 import ApproachSection from "@/components/home/ApproachSection";
-import CTASection from "@/components/home/CTASection";
+import ValueProposition from "@/components/home/ValueProposition";
+import TestimonialSection from "@/components/home/TestimonialSection";
+import HomePageCTA from "@/components/home/HomePageCTA";
 
 const Home = () => {
-    const { isFirstLoad, scrollY } = useAnimation();
-    const homeRef = useRef<HTMLDivElement>(null);
+    const pageRef = useRef<HTMLDivElement>(null);
 
     // Create subtle parallax effect for background elements
     const { scrollYProgress } = useScroll({
-        target: homeRef,
+        target: pageRef,
         offset: ["start start", "end end"]
     });
 
     const backgroundY = useTransform(scrollYProgress, [0, 1], [0, 50]);
 
-    // Initial page load animation sequence
-    const initialLoadSequence = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                delayChildren: 0.3,
-                staggerChildren: 0.2
-            }
-        }
-    };
-
-    // Subtle cursor follower effect (decorative element)
-    const [mousePosition, setMousePosition] = React.useState({ x: 0, y: 0 });
-
-    useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
-            const xPos = (e.clientX / window.innerWidth) - 0.5;
-            const yPos = (e.clientY / window.innerHeight) - 0.5;
-
-            // Apply smoothing
-            setMousePosition(prev => ({
-                x: prev.x + (xPos - prev.x) * 0.1,
-                y: prev.y + (yPos - prev.y) * 0.1
-            }));
-        };
-
-        window.addEventListener('mousemove', handleMouseMove);
-
-        return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
-        };
-    }, []);
-
     return (
         <motion.div
-            ref={homeRef}
+            ref={pageRef}
             className="relative overflow-hidden"
-            initial="hidden"
-            animate="visible"
-            variants={initialLoadSequence}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
-            {/* Subtle cursor follower effect - decorative element */}
-            <motion.div
-                className="fixed top-0 left-0 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-ph/5 to-transparent blur-[80px] pointer-events-none opacity-50 z-0"
-                style={{
-                    x: mousePosition.x * 50,
-                    y: mousePosition.y * 50,
-                }}
-                transition={{ type: "spring", damping: 20 }}
-            />
-
-            {/* Subtle background grid */}
+            {/* Subtle background elements */}
             <div className="fixed inset-0 bg-[linear-gradient(rgba(79,107,255,0.015)_1px,transparent_1px),linear-gradient(to_right,rgba(79,107,255,0.015)_1px,transparent_1px)] bg-[length:50px_50px] pointer-events-none z-0"></div>
 
-            {/* Hero Section with enhanced animations */}
             <motion.div
-                variants={{
-                    hidden: { opacity: 0 },
-                    visible: {
-                        opacity: 1,
-                        transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
-                    }
-                }}
-            >
-                <HeroSection />
-            </motion.div>
+                className="fixed top-0 left-0 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-ph/5 to-transparent blur-[80px] pointer-events-none opacity-50 z-0"
+                style={{ y: backgroundY }}
+            />
+
+            {/* Page Sections */}
+            <HeroSection />
 
             {/* Visual section divider - subtle animated line */}
-            <div className="relative">
-                <motion.div
-                    className="absolute left-1/2 -translate-x-1/2 w-[50%] h-px bg-gradient-to-r from-transparent via-ph/20 to-transparent"
-                    initial={{ width: "0%" }}
-                    whileInView={{ width: "50%" }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-                />
-            </div>
+            <SectionDivider />
 
-            {/* Value Proposition with parallax background */}
-            <ParallaxSection>
-                <SectionReveal>
-                    <ValueProposition />
-                </SectionReveal>
-            </ParallaxSection>
+            <ServicesOverview />
 
-            {/* Visual section divider - subtle animated line */}
-            <div className="relative">
-                <motion.div
-                    className="absolute left-1/2 -translate-x-1/2 w-[50%] h-px bg-gradient-to-r from-transparent via-ph/20 to-transparent"
-                    initial={{ width: "0%" }}
-                    whileInView={{ width: "50%" }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-                />
-            </div>
+            <SectionDivider />
 
-            {/* Services Section with subtle reveal */}
-            <SectionReveal>
-                <ServicesShowcase />
-            </SectionReveal>
+            <ApproachSection />
 
-            {/* Visual section divider - subtle animated line */}
-            <div className="relative">
-                <motion.div
-                    className="absolute left-1/2 -translate-x-1/2 w-[50%] h-px bg-gradient-to-r from-transparent via-ph/20 to-transparent"
-                    initial={{ width: "0%" }}
-                    whileInView={{ width: "50%" }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-                />
-            </div>
+            <SectionDivider />
 
-            {/* Approach Section with enhanced animations */}
-            <ParallaxSection speed={0.1}>
-                <SectionReveal>
-                    <ApproachSection />
-                </SectionReveal>
-            </ParallaxSection>
+            <ValueProposition />
 
-            {/* Visual section divider - subtle animated line */}
-            <div className="relative">
-                <motion.div
-                    className="absolute left-1/2 -translate-x-1/2 w-[50%] h-px bg-gradient-to-r from-transparent via-ph/20 to-transparent"
-                    initial={{ width: "0%" }}
-                    whileInView={{ width: "50%" }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-                />
-            </div>
+            <SectionDivider />
 
-            {/* CTA Section with reveal animation */}
-            <SectionReveal>
-                <CTASection />
-            </SectionReveal>
+            <TestimonialSection />
 
+            <SectionDivider />
+
+            <HomePageCTA />
         </motion.div>
+    );
+};
+
+// Reusable section divider component
+const SectionDivider = () => {
+    return (
+        <div className="relative">
+            <motion.div
+                className="absolute left-1/2 -translate-x-1/2 w-[50%] h-px bg-gradient-to-r from-transparent via-ph/20 to-transparent"
+                initial={{ width: "0%" }}
+                whileInView={{ width: "50%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+            />
+        </div>
     );
 };
 

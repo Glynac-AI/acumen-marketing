@@ -1,236 +1,223 @@
 // src/components/home/HeroSection.tsx
 import React, { useState, useEffect } from "react";
-import { motion, Variants } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowDown } from "lucide-react";
+
+// Define value propositions for elegant transition
+const valueProps = [
+    "Strengthen digital presence",
+    "Generate qualified leads",
+    "Enhance client acquisition",
+    "Build trusted relationships",
+    "Drive measurable AUM growth"
+];
 
 const HeroSection = () => {
-    const [activeIndex, setActiveIndex] = useState(0);
+    const [currentValueProp, setCurrentValueProp] = useState(0);
 
-    // Rotating value propositions
-    const valueProps = [
-        "Strengthen digital presence",
-        "Generate qualified leads",
-        "Build trust with clients",
-        "Scale outreach & visibility"
-    ];
-
-    // Smooth rotation through marketing pillars
+    // Rotate through value propositions with smooth transitions
     useEffect(() => {
         const interval = setInterval(() => {
-            setActiveIndex((prev) => (prev + 1) % valueProps.length);
-        }, 2000);
+            setCurrentValueProp((prev) => (prev + 1) % valueProps.length);
+        }, 4000);
+
         return () => clearInterval(interval);
     }, []);
 
-    // Animation variants for staggered reveal
-    const containerVariants: Variants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.15,
-                delayChildren: 0.3
-            }
-        }
-    };
-
-    const itemVariants: Variants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 0.8,
-                ease: "easeOut"
-            }
-        }
-    };
-
-    const fadeInUpVariants: Variants = {
-        hidden: { opacity: 0, y: 30 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 0.8,
-                ease: "easeOut"
-            }
-        }
-    };
-
-    // Special text reveal animation for the main headline
-    const textRevealVariants: Variants = {
-        hidden: { y: 100 },
-        visible: {
-            y: 0,
-            transition: {
-                duration: 0.8,
-                ease: "easeOut"
-            }
-        }
-    };
-
     return (
-        <section className="relative py-24 md:py-32 bg-[#F8FAFF]">
-            {/* Subtle background gradient */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[#F8FAFF] to-[#F0F4FF] -z-10"></div>
+        <section className="relative min-h-screen flex items-center justify-center pt-40 pb-32 overflow-visible">
+            {/* Premium gradient background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#F8FAFF] via-[#F4F8FF] to-[#EDF3FF] z-0"></div>
 
-            {/* Subtle background pattern that fades in */}
-            <motion.div
-                className="absolute inset-0 bg-[linear-gradient(rgba(79,107,255,0.01)_1px,transparent_1px),linear-gradient(to_right,rgba(79,107,255,0.01)_1px,transparent_1px)] bg-[length:50px_50px] -z-10"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.3 }}
-                transition={{ duration: 1.5, delay: 0.5 }}
-            ></motion.div>
+            {/* Sophisticated background elements inspired by Acumen Recruiting */}
+            <div className="absolute inset-0 pointer-events-none z-0">
+                {/* Elegant abstract shapes */}
+                <div className="absolute right-0 top-0 w-1/3 h-1/3 bg-ph/[0.02] rounded-bl-[100px]"></div>
+                <div className="absolute left-0 bottom-0 w-1/2 h-1/2 bg-ph/[0.02] rounded-tr-[200px]"></div>
 
-            {/* Very subtle animated gradient blob */}
-            <motion.div
-                className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full bg-gradient-to-b from-ph/5 to-transparent blur-3xl opacity-30 -z-10"
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{
-                    scale: [0.8, 1.2, 0.9],
-                    opacity: [0, 0.3, 0.2]
-                }}
-                transition={{
-                    duration: 8,
-                    repeat: Infinity,
-                    repeatType: "reverse"
-                }}
-            />
-
-            <div className="container mx-auto px-6">
-                {/* Main content with staggered animation */}
+                {/* Subtle circles that add depth without distraction */}
                 <motion.div
-                    className="max-w-5xl mx-auto text-center"
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="visible"
-                >
-                    {/* Main headline with text reveal animation */}
-                    <div className="mb-8">
-                        <div className="overflow-hidden">
-                            <motion.h1
-                                className="text-5xl md:text-6xl lg:text-7xl font-display font-light leading-[1.1] tracking-tight text-[#0A2540]"
-                                variants={textRevealVariants}
-                            >
-                                <span className="block mb-3">Marketing Solutions</span>
-                            </motion.h1>
-                        </div>
+                    className="absolute top-[20%] left-[10%] w-32 h-32 rounded-full border border-ph/[0.05]"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
+                ></motion.div>
 
-                        <div className="overflow-hidden">
-                            <motion.h1
-                                className="text-5xl md:text-6xl lg:text-7xl font-display font-light leading-[1.1] tracking-tight text-[#0A2540]"
-                                variants={textRevealVariants}
-                                transition={{ delay: 0.1 }}
-                            >
-                                <span className="block mb-3">Built for the <span className="text-ph font-normal">
-                                    Wealth Management
-                                </span></span>
-                            </motion.h1>
-                        </div>
+                <motion.div
+                    className="absolute bottom-[30%] right-[15%] w-24 h-24 rounded-full border border-ph/[0.05]"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
+                ></motion.div>
 
-                        <div className="overflow-hidden">
-                            <motion.h1
-                                className="text-5xl md:text-6xl lg:text-7xl font-display font-light leading-[1.1] tracking-tight text-[#0A2540]"
-                                variants={textRevealVariants}
-                                transition={{ delay: 0.2 }}
-                            >
-                                <span className="block">Industry</span>
-                            </motion.h1>
-                        </div>
-                    </div>
+                <motion.div
+                    className="absolute top-[60%] left-[30%] w-16 h-16 rounded-full border border-ph/[0.05]"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1.5, ease: "easeOut", delay: 0.4 }}
+                ></motion.div>
+            </div>
 
-                    {/* Subtitle with fade in animation */}
-                    <motion.p
-                        className="text-xl text-muted-foreground max-w-3xl mx-auto mb-10"
-                        variants={fadeInUpVariants}
-                        transition={{ delay: 0.4 }}
-                    >
-                        Acumen Marketing (AM) helps RIAs, family offices, and financial advisors grow through strategy-led, compliance-aware marketing.
-                    </motion.p>
-
-                    {/* Animated rotating text */}
+            <div className="container mx-auto px-6 z-10 relative">
+                <div className="max-w-5xl mx-auto text-center">
+                    {/* Pre-title with elegant fade up animation */}
                     <motion.div
-                        className="relative h-10 mb-12 overflow-hidden"
-                        variants={fadeInUpVariants}
-                        transition={{ delay: 0.6 }}
+                        className="flex items-center justify-center mb-6"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
                     >
-                        {valueProps.map((prop, index) => (
-                            <motion.div
-                                key={prop}
-                                className="absolute inset-0 flex items-center justify-center"
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{
-                                    opacity: activeIndex === index ? 1 : 0,
-                                    y: activeIndex === index ? 0 : 20
-                                }}
-                                transition={{ duration: 0.5 }}
-                            >
-                                <span className="text-lg text-muted-foreground flex items-center">
-                                    <motion.span
-                                        className="w-2 h-2 rounded-full bg-ph mr-3"
-                                        animate={{ scale: [1, 1.3, 1] }}
-                                        transition={{ duration: 1, repeat: Infinity }}
-                                    ></motion.span>
-                                    {prop}
-                                </span>
-                            </motion.div>
-                        ))}
+                        <div className="h-px w-8 bg-ph/40 mr-3"></div>
+                        <span className="text-sm text-ph font-medium uppercase tracking-wider">Marketing For Wealth Management</span>
+                        <div className="h-px w-8 bg-ph/40 ml-3"></div>
                     </motion.div>
 
-                    {/* CTA button with subtle hover effect */}
+                    {/* Main title with sophisticated text highlight animations */}
                     <motion.div
-                        className="flex justify-center"
-                        variants={fadeInUpVariants}
-                        transition={{ delay: 0.8 }}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                            duration: 1.4,
+                            ease: [0.22, 1, 0.36, 1],
+                            delay: 0.2
+                        }}
+                        className="mb-8"
+                    >
+                        <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-light leading-[1.3] tracking-tight text-[#0A2540] mb-3">
+                            <span className="relative inline-block">
+                                Strategic
+                                <motion.span
+                                    className="absolute bottom-2 left-0 w-full h-3 bg-ph/10 -z-10 rounded-sm"
+                                    initial={{ scaleX: 0, originX: 0 }}
+                                    animate={{ scaleX: 1 }}
+                                    transition={{ delay: 0.8, duration: 0.8, ease: "easeOut" }}
+                                />
+                            </span> Marketing to
+                        </h1>
+                        <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-light leading-[1.3] tracking-tight">
+                            <span className="text-ph font-normal">Grow AUM</span>
+                        </h1>
+                    </motion.div>
+
+                    {/* Subtitle with fade up animation */}
+                    <motion.p
+                        className="text-xl text-muted-foreground max-w-3xl mx-auto text-center mb-6"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                            duration: 1.4,
+                            ease: [0.22, 1, 0.36, 1],
+                            delay: 0.4
+                        }}
+                    >
+                        Specialized marketing services for wealth management firms, RIAs,
+                        family offices, and financial advisors.
+                    </motion.p>
+
+                    {/* Value proposition with elegant crossfade effect */}
+                    <motion.div
+                        className="h-12 mb-16"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                            duration: 1.4,
+                            ease: [0.22, 1, 0.36, 1],
+                            delay: 0.6
+                        }}
+                    >
+                        <div className="relative h-full flex items-center justify-center">
+                            <AnimatePresence mode="wait">
+                                <motion.p
+                                    key={currentValueProp}
+                                    className="text-ph font-medium absolute left-0 right-0"
+                                    initial={{ opacity: 0, y: 15 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -15 }}
+                                    transition={{
+                                        duration: 0.8,
+                                        ease: [0.22, 1, 0.36, 1]
+                                    }}
+                                >
+                                    {valueProps[currentValueProp]}
+                                </motion.p>
+                            </AnimatePresence>
+                        </div>
+                    </motion.div>
+
+                    {/* CTA Buttons with premium hover effects */}
+                    <motion.div
+                        className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-20"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                            duration: 1.4,
+                            ease: [0.22, 1, 0.36, 1],
+                            delay: 0.8
+                        }}
                     >
                         <motion.div
-                            whileHover={{ y: -3 }}
-                            whileTap={{ scale: 0.98 }}
+                            whileHover={{ y: -5, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <Link
+                                to="/services"
+                                className="group inline-flex items-center px-8 py-4 bg-ph text-white font-medium shadow-sm transition-all duration-300"
+                            >
+                                <span>Explore Our Services</span>
+                                <span className="ml-2 group-hover:translate-x-1 transition-transform duration-300">
+                                    <ArrowRight className="w-5 h-5" />
+                                </span>
+                            </Link>
+                        </motion.div>
+
+                        <motion.div
+                            whileHover={{ y: -5, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
+                            transition={{ duration: 0.3 }}
                         >
                             <Link
                                 to="/contact"
-                                className="inline-flex items-center px-8 py-3 bg-ph text-white font-medium transition-all"
+                                className="inline-flex items-center px-8 py-4 bg-white text-foreground font-medium border border-gray-200 shadow-sm transition-all duration-300 hover:border-ph/30"
                             >
-                                Discover how we can help you grow
-                                <motion.div
-                                    className="ml-2"
-                                    animate={{ x: [0, 4, 0] }}
-                                    transition={{
-                                        duration: 1.5,
-                                        repeat: Infinity,
-                                        repeatType: "reverse",
-                                        ease: "easeInOut"
-                                    }}
-                                >
-                                    <ArrowRight className="w-5 h-5" />
-                                </motion.div>
+                                Contact Us
                             </Link>
                         </motion.div>
                     </motion.div>
 
-                    {/* Client types with staggered fade in */}
+                    {/* Client types with elegant card effects similar to Acumen Recruiting */}
                     <motion.div
-                        className="mt-16 flex justify-center"
-                        variants={fadeInUpVariants}
-                        transition={{ delay: 1 }}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                            duration: 1.4,
+                            ease: [0.22, 1, 0.36, 1],
+                            delay: 1
+                        }}
                     >
-                        <div className="flex flex-wrap justify-center gap-3">
-                            {["RIAs", "Family Offices", "Financial Advisors"].map((client, index) => (
+                        <p className="text-sm text-muted-foreground mb-4">Trusted by:</p>
+                        <div className="flex flex-wrap justify-center gap-4">
+                            {["RIAs", "Family Offices", "Wealth Management Firms", "Financial Advisors"].map((client, index) => (
                                 <motion.span
                                     key={client}
-                                    className="px-4 py-1 rounded-full bg-white border border-gray-200 text-muted-foreground text-sm"
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: 1.2 + (index * 0.1) }}
+                                    className="inline-block px-4 py-1 bg-white/70 backdrop-blur-sm border border-gray-200 rounded-full text-sm text-muted-foreground shadow-sm"
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5, delay: 1.2 + (index * 0.1) }}
+                                    whileHover={{
+                                        y: -3,
+                                        boxShadow: "0 10px 15px -5px rgba(0, 0, 0, 0.1)",
+                                        borderColor: "rgba(79,107,255,0.3)",
+                                        color: "#4F6BFF"
+                                    }}
                                 >
                                     {client}
                                 </motion.span>
                             ))}
                         </div>
                     </motion.div>
-                </motion.div>
+
+                   
+                </div>
             </div>
         </section>
     );

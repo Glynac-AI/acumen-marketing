@@ -61,20 +61,6 @@ const companies: CompanyProps[] = [
             "Succession Planning"
         ],
         url: "https://acumen-advisory.com"
-    },
-    {
-        icon: <BookOpen className="w-6 h-6" />,
-        name: "Acumen Institute",
-        description: "Research, education, and certification programs for wealth management professionals.",
-        services: [
-            "Industry Research",
-            "Continuing Education",
-            "Certification Programs",
-            "Leadership Development",
-            "Practice Management",
-            "Peer Networking"
-        ],
-        url: "https://acumen-institute.com"
     }
 ];
 
