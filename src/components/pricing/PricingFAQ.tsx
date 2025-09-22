@@ -1,8 +1,7 @@
 // src/components/pricing/PricingFAQ.tsx
 import React, { useState, useRef } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { ChevronDown, MessageCircle, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ChevronDown, MessageCircle } from "lucide-react";
 
 // Define FAQ data structure
 interface FAQItemProps {
@@ -12,7 +11,7 @@ interface FAQItemProps {
 
 const PricingFAQ = () => {
     const sectionRef = useRef(null);
-    const [expandedIndex, setExpandedIndex] = useState(null);
+    const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
     // Scroll-based animations
     const { scrollYProgress } = useScroll({
@@ -24,7 +23,7 @@ const PricingFAQ = () => {
     const titleY = useTransform(scrollYProgress, [0, 0.2], [50, 0]);
 
     // Toggle FAQ item
-    const toggleItem = (index) => {
+    const toggleItem = (index: number) => {
         setExpandedIndex(expandedIndex === index ? null : index);
     };
 
@@ -111,7 +110,7 @@ const PricingFAQ = () => {
 
                 <div className="max-w-4xl mx-auto">
                     {/* FAQ Items with elegant animations */}
-                    <div className="space-y-4 mb-16">
+                    <div className="space-y-4">
                         {faqItems.map((item, index) => (
                             <motion.div
                                 key={index}
@@ -127,8 +126,13 @@ const PricingFAQ = () => {
                                     aria-expanded={expandedIndex === index}
                                 >
                                     <div className="flex items-center">
-                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-4 transition-colors ${expandedIndex === index ? 'bg-ph text-white' : 'bg-ph/10 text-ph'
-                                            }`}>
+                                        <div
+                                            className={`w-8 h-8 rounded-full flex items-center justify-center mr-4 transition-colors ${
+                                                expandedIndex === index
+                                                    ? "bg-ph text-white"
+                                                    : "bg-ph/10 text-ph"
+                                            }`}
+                                        >
                                             <MessageCircle className="w-4 h-4" />
                                         </div>
                                         <span className="text-lg font-medium text-foreground">
@@ -136,8 +140,11 @@ const PricingFAQ = () => {
                                         </span>
                                     </div>
                                     <ChevronDown
-                                        className={`w-5 h-5 text-muted-foreground transition-transform duration-300 ${expandedIndex === index ? 'rotate-180' : ''
-                                            }`}
+                                        className={`w-5 h-5 text-muted-foreground transition-transform duration-300 ${
+                                            expandedIndex === index
+                                                ? "rotate-180"
+                                                : ""
+                                        }`}
                                     />
                                 </button>
 
@@ -145,9 +152,12 @@ const PricingFAQ = () => {
                                     {expandedIndex === index && (
                                         <motion.div
                                             initial={{ height: 0, opacity: 0 }}
-                                            animate={{ height: 'auto', opacity: 1 }}
+                                            animate={{ height: "auto", opacity: 1 }}
                                             exit={{ height: 0, opacity: 0 }}
-                                            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                                            transition={{
+                                                duration: 0.3,
+                                                ease: [0.22, 1, 0.36, 1],
+                                            }}
                                             className="overflow-hidden"
                                         >
                                             <div className="p-6 pt-0 border-t border-gray-100">
@@ -161,47 +171,6 @@ const PricingFAQ = () => {
                             </motion.div>
                         ))}
                     </div>
-
-                    {/* CTA Section */}
-                    <motion.div
-                        className="bg-white p-8 border border-gray-200 text-center"
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.7, delay: 0.5 }}
-                    >
-                        <h3 className="text-xl font-medium text-foreground mb-3">
-                            Still have questions?
-                        </h3>
-                        <p className="text-muted-foreground mb-6">
-                            We'd be happy to discuss your specific wealth management marketing needs in more detail.
-                        </p>
-                        <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                            <motion.div
-                                whileHover={{ y: -3 }}
-                                whileTap={{ scale: 0.98 }}
-                            >
-                                <Link
-                                    to="/contact"
-                                    className="inline-flex items-center px-6 py-3 bg-ph text-white font-medium transition-all"
-                                >
-                                    Schedule a Consultation
-                                    <ArrowRight className="ml-2 w-5 h-5" />
-                                </Link>
-                            </motion.div>
-                            <motion.div
-                                whileHover={{ y: -3 }}
-                                whileTap={{ scale: 0.98 }}
-                            >
-                                <a
-                                    href="mailto:info@acumen-strategy.com"
-                                    className="inline-flex items-center px-6 py-3 bg-white border border-gray-200 text-foreground font-medium transition-all"
-                                >
-                                    Email Us Directly
-                                </a>
-                            </motion.div>
-                        </div>
-                    </motion.div>
                 </div>
             </div>
         </section>
