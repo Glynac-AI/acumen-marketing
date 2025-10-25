@@ -1,5 +1,5 @@
+// src/App.tsx
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import LenisProvider from "@/components/LenisProvider";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
@@ -9,6 +9,8 @@ import Services from "./pages/Services";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
 import Pricing from "@/pages/Pricing";
+import Approach from "@/pages/Approach";
+import Ecosystem from "@/pages/Ecosystem";
 
 import { AnimationProvider } from './components/animations/AnimationProvider';
 import LenisProvider from "./components/animations/LenisProvider";
@@ -26,9 +28,11 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/services" element={<Services />} />
+                <Route path="/pricing" element={<Pricing />} />
+                <Route path="/approach" element={<Approach />} />
+                <Route path="/ecosystem" element={<Ecosystem />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
-                <Route path="/pricing" element={<Pricing />} />
               </Routes>
             </main>
             <Footer />

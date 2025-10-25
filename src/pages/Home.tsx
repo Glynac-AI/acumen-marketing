@@ -2,18 +2,19 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-// Import enhanced components
+// Import components
 import HeroSection from "@/components/home/HeroSection";
+import ProblemSolution from "@/components/home/ProblemSolution";
 import ServicesOverview from "@/components/home/ServicesOverview";
-import ApproachSection from "@/components/home/ApproachSection";
-import ValueProposition from "@/components/home/ValueProposition";
-import TestimonialSection from "@/components/home/TestimonialSection";
+import ApproachPreview from "@/components/home/ApproachPreview";
+import WhyChooseAcumen from "@/components/home/WhyChooseAcumen";
+import SocialProof from "@/components/home/SocialProof";
+import PricingPreview from "@/components/home/PricingPreview";
 import HomePageCTA from "@/components/home/HomePageCTA";
 
 const Home = () => {
     const pageRef = useRef<HTMLDivElement>(null);
 
-    // Create subtle parallax effect for background elements
     const { scrollYProgress } = useScroll({
         target: pageRef,
         offset: ["start start", "end end"]
@@ -29,7 +30,6 @@ const Home = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
-            {/* Subtle background elements */}
             <div className="fixed inset-0 bg-[linear-gradient(rgba(79,107,255,0.015)_1px,transparent_1px),linear-gradient(to_right,rgba(79,107,255,0.015)_1px,transparent_1px)] bg-[length:50px_50px] pointer-events-none z-0"></div>
 
             <motion.div
@@ -37,26 +37,25 @@ const Home = () => {
                 style={{ y: backgroundY }}
             />
 
-            {/* Page Sections */}
             <HeroSection />
+            <SectionDivider />
 
-            {/* Visual section divider - subtle animated line */}
+            <ProblemSolution />
             <SectionDivider />
 
             <ServicesOverview />
-
             <SectionDivider />
 
-            <ApproachSection />
-
+            <ApproachPreview />
             <SectionDivider />
 
-            <ValueProposition />
-
+            <WhyChooseAcumen />
             <SectionDivider />
 
-            <TestimonialSection />
+            <SocialProof />
+            <SectionDivider />
 
+            <PricingPreview />
             <SectionDivider />
 
             <HomePageCTA />
@@ -64,7 +63,6 @@ const Home = () => {
     );
 };
 
-// Reusable section divider component
 const SectionDivider = () => {
     return (
         <div className="relative">
