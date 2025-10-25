@@ -6,11 +6,7 @@ import {
     TrendingUp,
     Users,
     Cpu,
-    Home,
-    Briefcase,
-    PieChart,
-    FileText,
-    Shield
+    Home
 } from "lucide-react";
 
 const BrandShowcase = () => {
@@ -66,42 +62,6 @@ const BrandShowcase = () => {
                 "Investors introduced to Acumen Strategy",
                 "Cross-sell financial planning services"
             ]
-        },
-        {
-            icon: <Briefcase className="w-6 h-6" />,
-            name: "Acumen Private Wealth",
-            description: "High-net-worth advisory services",
-            services: [
-                "Estate & tax planning",
-                "Personalized wealth strategies"
-            ]
-        },
-        {
-            icon: <PieChart className="w-6 h-6" />,
-            name: "Acumen Investments",
-            description: "Portfolio management",
-            services: [
-                "Retirement solutions",
-                "Investment strategies"
-            ]
-        },
-        {
-            icon: <FileText className="w-6 h-6" />,
-            name: "Acumen Financial Planning",
-            description: "Comprehensive financial plans",
-            services: [
-                "Product referrals across ecosystem",
-                "Holistic planning approach"
-            ]
-        },
-        {
-            icon: <Shield className="w-6 h-6" />,
-            name: "Acumen Insurance",
-            description: "Risk products integrated with wealth plans",
-            services: [
-                "Life insurance solutions",
-                "Risk management strategies"
-            ]
         }
     ];
 
@@ -118,7 +78,7 @@ const BrandShowcase = () => {
                         transition={{ duration: 0.7 }}
                     >
                         <h2 className="text-3xl md:text-4xl font-display font-light tracking-tight text-foreground mb-6">
-                            Nine Specialized{" "}
+                            Five Specialized{" "}
                             <span className="text-ph font-normal">Brands</span>
                         </h2>
                         <p className="text-lg text-muted-foreground max-w-3xl mx-auto">

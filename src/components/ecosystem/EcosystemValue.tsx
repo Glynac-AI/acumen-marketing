@@ -20,7 +20,7 @@ const EcosystemValue = () => {
             description: "vs. single-point solutions"
         },
         {
-            value: "9",
+            value: "5",
             label: "Specialized Brands",
             description: "Working together"
         },

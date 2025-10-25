@@ -14,7 +14,7 @@ const EcosystemHero = () => {
                 <div className="absolute left-0 bottom-0 w-1/2 h-1/2 bg-ph/[0.02] rounded-tr-[200px]"></div>
             </div>
 
-            <div className="container mx-auto px-6 relative z-10">
+            <div className="container mx-auto relative z-10">
                 <div className="max-w-5xl mx-auto">
                     {/* Main Content */}
                     <motion.div
@@ -48,7 +48,7 @@ const EcosystemHero = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.4 }}
                         >
-                            Nine specialized companies working together to provide comprehensive support
+                            Five specialized companies working together to provide comprehensive support
                             for wealth management firms—from marketing and recruiting to strategy and technology.
                         </motion.p>
                     </motion.div>
@@ -61,7 +61,7 @@ const EcosystemHero = () => {
                         transition={{ duration: 0.8, delay: 0.6 }}
                     >
                         <div className="bg-white/80 backdrop-blur-sm p-8 rounded-lg border border-gray-100">
-                            <div className="text-4xl font-light text-ph mb-2">9</div>
+                            <div className="text-4xl font-light text-ph mb-2">5</div>
                             <div className="text-sm text-muted-foreground">Specialized Companies</div>
                         </div>
                         <div className="bg-white/80 backdrop-blur-sm p-8 rounded-lg border border-gray-100">
@@ -74,7 +74,19 @@ const EcosystemHero = () => {
                         </div>
                     </motion.div>
 
-                   
+                    {/* Value Statement */}
+                    <motion.div
+                        className="mt-16 text-center"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.8 }}
+                    >
+                        <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                            While others offer fragmented services, Acumen delivers an integrated ecosystem
+                            where marketing, recruiting, strategy, and technology work together seamlessly
+                            to accelerate your firm's growth.
+                        </p>
+                    </motion.div>
                 </div>
             </div>
         </section>
