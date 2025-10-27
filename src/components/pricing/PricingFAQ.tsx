@@ -12,7 +12,7 @@ interface FAQItemProps {
 
 const PricingFAQ = () => {
     const sectionRef = useRef(null);
-    const [expandedIndex, setExpandedIndex] = useState(null);
+    const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
     // Scroll-based animations
     const { scrollYProgress } = useScroll({
@@ -24,11 +24,11 @@ const PricingFAQ = () => {
     const titleY = useTransform(scrollYProgress, [0, 0.2], [50, 0]);
 
     // Toggle FAQ item
-    const toggleItem = (index) => {
+    const toggleItem = (index: number) => {
         setExpandedIndex(expandedIndex === index ? null : index);
     };
 
-    // FAQ items
+    // FAQ items - UPDATED FROM DRAFT
     const faqItems: FAQItemProps[] = [
         {
             question: "What's included in the initial strategy phase?",
@@ -40,27 +40,27 @@ const PricingFAQ = () => {
         },
         {
             question: "What is the minimum commitment period for retainer services?",
-            answer: "Our Foundation and Growth retainer plans require a minimum 6-month commitment, while the Enterprise plan requires a 12-month commitment. These timeframes allow us to implement comprehensive strategies and demonstrate meaningful results. Marketing for wealth management is a long-term investment, and these minimum terms ensure we have sufficient time to execute strategies that drive real business impact. After the initial term, contracts continue on a month-to-month basis with a 30-day notice period."
+            answer: "Our packages require a 90-day initial commitment. This timeframe allows us to implement comprehensive strategies and demonstrate meaningful results. Marketing for wealth management is a long-term investment, and this minimum term ensures we have sufficient time to execute strategies that drive real business impact. Monthly billing with 10% discount for annual prepayment is available."
         },
         {
-            question: "Can we scale our services up or down based on our needs?",
-            answer: "Absolutely. We understand that your marketing needs may evolve over time. You can upgrade to a higher tier as your firm grows or as you're ready to expand your marketing initiatives. While scaling down mid-contract is more limited, we can discuss adjustments to your service package at renewal time. We review your plan quarterly to ensure it continues to align with your business objectives and make recommendations for any needed adjustments."
+            question: "How are the expected MQLs calculated?",
+            answer: "Expected MQLs (Marketing Qualified Leads) are based on our historical performance data across similar wealth management clients. These ranges account for variables like firm size, market conditions, and campaign execution. The Starter Package typically generates 15-25 MQLs monthly, Growth Package 40-60 MQLs, and Leadership Package 80-120 MQLs. Actual results may vary based on your specific market, target audience, and how quickly prospects move through your sales process."
         },
         {
-            question: "How do you measure the success of your marketing services?",
-            answer: "We establish clear KPIs at the beginning of our engagement based on your specific business goals. For wealth management firms, we typically track metrics like qualified lead generation, prospect meeting conversions, AUM influenced by marketing activities, digital engagement, and brand recognition within target segments. We provide regular reporting on these metrics, along with insights on how marketing activities are contributing to business growth. Our focus is always on connecting marketing efforts to tangible business outcomes."
+            question: "Can we customize a package or add specific services?",
+            answer: "Absolutely. While our three core packages provide comprehensive solutions for most firms, we understand that each wealth management firm has unique needs. We offer various add-on services including custom video production ($2,500-$5,000), advanced ABM campaigns ($3,000/month), additional platforms ($1,500/platform/month), and PR article placement ($1,000-$2,500 per article). We can also create fully custom packages for firms with specific requirements. Schedule a consultation to discuss your needs."
         },
         {
-            question: "Do you offer à la carte services or must we choose a package?",
-            answer: "While our packages are designed to provide comprehensive solutions, we do offer some services on an à la carte basis, particularly for firms with specific needs or those who want to start with a focused initiative. The specialized add-on packages can be purchased individually, and we can create custom scopes for specific projects. However, for ongoing marketing support, our retainer packages typically provide the best value and results."
+            question: "What platforms are included in each package?",
+            answer: "The Starter Package includes Facebook and LinkedIn (2-3 platforms total). The Growth Package adds Google Ads and YouTube (4-5 platforms total). The Leadership Package includes all 7 platforms: Facebook, LinkedIn, Google Ads, YouTube, Instagram, Twitter, and includes PR & media placement. Additional platforms can be added to any package for $1,500/platform/month."
         },
         {
             question: "What makes your pricing different from general marketing agencies?",
-            answer: "Our pricing reflects our specialized expertise in wealth management marketing. Unlike general agencies that serve various industries, we focus exclusively on wealth management firms, which allows us to deliver more targeted, effective strategies from day one. Our deep understanding of regulatory requirements, high-net-worth client acquisition, and the wealth management business model means less ramp-up time and learning curve costs. While our rates may be higher than general agencies, our industry-specific approach typically delivers faster results and stronger ROI."
+            answer: "Our pricing reflects our specialized expertise in wealth management marketing. Unlike general agencies that serve various industries, we focus exclusively on wealth management firms, which allows us to deliver more targeted, effective strategies from day one. Our deep understanding of regulatory requirements, high-net-worth client acquisition, and the wealth management business model means less ramp-up time and learning curve costs. We also provide transparent pricing with clear MQL targets, which most agencies don't offer."
         },
         {
             question: "Is there a discount for annual payment?",
-            answer: "Yes, we offer a 10% discount for clients who choose to pay annually rather than monthly. This applies to all retainer plans and represents a significant savings while also simplifying your accounting. Annual commitments also receive priority for rush projects and additional strategic planning sessions throughout the year."
+            answer: "Yes, we offer a 10% discount for clients who choose to pay annually rather than monthly. This applies to all retainer packages and represents significant savings while also simplifying your accounting. Annual commitments also receive priority for rush projects and additional strategic planning sessions throughout the year."
         }
     ];
 
@@ -95,114 +95,93 @@ const PricingFAQ = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.7 }}
                     >
-                        Common Questions About <span className="text-ph">Pricing & Services</span>
+                        Common Questions About{" "}
+                        <span className="text-ph font-normal">Our Pricing</span>
                     </motion.h2>
 
                     <motion.p
-                        className="text-xl text-muted-foreground max-w-3xl mx-auto"
+                        className="text-lg text-muted-foreground max-w-3xl mx-auto"
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.7, delay: 0.1 }}
                     >
-                        Transparent answers to help you understand our pricing structure and service delivery
+                        Everything you need to know about our packages, commitment terms, and what to expect
                     </motion.p>
                 </motion.div>
 
+                {/* FAQ Items */}
                 <div className="max-w-4xl mx-auto">
-                    {/* FAQ Items with elegant animations */}
-                    <div className="space-y-4 mb-16">
-                        {faqItems.map((item, index) => (
-                            <motion.div
-                                key={index}
-                                className="border border-gray-200 bg-white"
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: index * 0.05 }}
+                    {faqItems.map((item, index) => (
+                        <motion.div
+                            key={index}
+                            className="mb-4"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: index * 0.05 }}
+                        >
+                            <button
+                                onClick={() => toggleItem(index)}
+                                className="w-full bg-white border border-gray-200 rounded-lg p-6 text-left hover:border-ph/30 transition-all"
                             >
-                                <button
-                                    className="flex justify-between items-center w-full p-6 text-left focus:outline-none"
-                                    onClick={() => toggleItem(index)}
-                                    aria-expanded={expandedIndex === index}
-                                >
-                                    <div className="flex items-center">
-                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-4 transition-colors ${expandedIndex === index ? 'bg-ph text-white' : 'bg-ph/10 text-ph'
-                                            }`}>
-                                            <MessageCircle className="w-4 h-4" />
-                                        </div>
-                                        <span className="text-lg font-medium text-foreground">
-                                            {item.question}
-                                        </span>
-                                    </div>
-                                    <ChevronDown
-                                        className={`w-5 h-5 text-muted-foreground transition-transform duration-300 ${expandedIndex === index ? 'rotate-180' : ''
-                                            }`}
-                                    />
-                                </button>
+                                <div className="flex items-center justify-between">
+                                    <h3 className="text-lg font-medium text-foreground pr-8">
+                                        {item.question}
+                                    </h3>
+                                    <motion.div
+                                        animate={{ rotate: expandedIndex === index ? 180 : 0 }}
+                                        transition={{ duration: 0.3 }}
+                                    >
+                                        <ChevronDown className="w-5 h-5 text-ph flex-shrink-0" />
+                                    </motion.div>
+                                </div>
 
                                 <AnimatePresence>
                                     {expandedIndex === index && (
                                         <motion.div
                                             initial={{ height: 0, opacity: 0 }}
-                                            animate={{ height: 'auto', opacity: 1 }}
+                                            animate={{ height: "auto", opacity: 1 }}
                                             exit={{ height: 0, opacity: 0 }}
-                                            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                                            transition={{ duration: 0.3 }}
                                             className="overflow-hidden"
                                         >
-                                            <div className="p-6 pt-0 border-t border-gray-100">
-                                                <p className="text-muted-foreground">
-                                                    {item.answer}
-                                                </p>
-                                            </div>
+                                            <p className="text-muted-foreground mt-4 leading-relaxed">
+                                                {item.answer}
+                                            </p>
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
-                            </motion.div>
-                        ))}
-                    </div>
-
-                    {/* CTA Section */}
-                    <motion.div
-                        className="bg-white p-8 border border-gray-200 text-center"
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.7, delay: 0.5 }}
-                    >
-                        <h3 className="text-xl font-medium text-foreground mb-3">
-                            Still have questions?
-                        </h3>
-                        <p className="text-muted-foreground mb-6">
-                            We'd be happy to discuss your specific wealth management marketing needs in more detail.
-                        </p>
-                        <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                            <motion.div
-                                whileHover={{ y: -3 }}
-                                whileTap={{ scale: 0.98 }}
-                            >
-                                <Link
-                                    to="/contact"
-                                    className="inline-flex items-center px-6 py-3 bg-ph text-white font-medium transition-all"
-                                >
-                                    Schedule a Consultation
-                                    <ArrowRight className="ml-2 w-5 h-5" />
-                                </Link>
-                            </motion.div>
-                            <motion.div
-                                whileHover={{ y: -3 }}
-                                whileTap={{ scale: 0.98 }}
-                            >
-                                <a
-                                    href="mailto:info@acumen-strategy.com"
-                                    className="inline-flex items-center px-6 py-3 bg-white border border-gray-200 text-foreground font-medium transition-all"
-                                >
-                                    Email Us Directly
-                                </a>
-                            </motion.div>
-                        </div>
-                    </motion.div>
+                            </button>
+                        </motion.div>
+                    ))}
                 </div>
+
+                {/* CTA at bottom of FAQ */}
+                <motion.div
+                    className="text-center mt-16"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.7 }}
+                >
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-ph/10 text-ph mb-6">
+                        <MessageCircle className="w-8 h-8" />
+                    </div>
+                    <h3 className="text-2xl font-display font-light text-foreground mb-4">
+                        Still Have Questions?
+                    </h3>
+                    <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
+                        Schedule a complimentary consultation to discuss your specific needs and get a custom proposal
+                    </p>
+                    <Link
+                        to="/contact"
+                        className="inline-flex items-center px-8 py-4 bg-ph text-white font-medium rounded-lg hover:bg-ph-dark transition-all shadow-lg shadow-ph/20"
+                    >
+                        Schedule Strategy Call
+                        <ArrowRight className="w-5 h-5 ml-2" />
+                    </Link>
+                </motion.div>
             </div>
         </section>
     );

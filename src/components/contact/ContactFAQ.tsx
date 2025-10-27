@@ -34,7 +34,7 @@ const faqItems: FAQItemProps[] = [
     },
     {
         question: "How do your pricing structures work?",
-        answer: "We offer several engagement models: comprehensive marketing programs (typically starting at $8,000-15,000 monthly), project-based engagements for specific initiatives, and advisory retainers for strategic guidance. All engagements begin with a paid strategy phase to ensure alignment and establish clear objectives. We're transparent about pricing and tie our recommendations to expected business outcomes."
+        answer: "We offer several engagement models: Starter Package ($13,000/month), Growth Package ($22,500/month), and Leadership Package ($46,000/month). All packages include a 90-day initial commitment. Schedule a consultation to discuss which package fits your firm's needs."
     },
     {
         question: "How do you ensure marketing compliance for wealth management firms?",

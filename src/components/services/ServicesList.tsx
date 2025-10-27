@@ -1,419 +1,394 @@
 // src/components/services/ServicesList.tsx
-import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-    FileText,
-    Globe,
-    CreditCard,
+    ChevronDown,
+    Target,
     Users,
-    Calendar,
+    Megaphone,
     PenTool,
-    CheckCircle,
-    ArrowRight
+    FileText,
+    Palette,
+    Search,
+    Share2,
+    MousePointerClick,
+    Video,
+    BarChart3,
+    Database,
+    MapPin,
+    Newspaper,
+    CheckCircle
 } from "lucide-react";
-import { Link } from "react-router-dom";
 
-// Define service data structure
-interface ServiceProps {
+// Service category structure from draft
+interface Service {
+    id: string;
+    title: string;
+    description: string;
+    capabilities: string[];
+}
+
+interface ServiceCategory {
     id: string;
     icon: React.ReactNode;
     title: string;
-    subtitle: string;
     description: string;
-    capabilities: string[];
-    benefits: string[];
-    clientTypes: string[];
-    metrics: {
-        stat: string;
-        label: string;
-    }[];
+    services: Service[];
 }
 
-// Comprehensive service data with wealth management-specific details
-const services: ServiceProps[] = [
-    {
-        id: "content-marketing",
-        icon: <FileText className="w-6 h-6" />,
-        title: "Content & Thought Leadership",
-        subtitle: "Position your firm as a trusted voice in the industry",
-        description: "We develop high-quality, compliance-approved content that showcases your expertise and builds credibility with high-net-worth individuals and institutions. From insightful whitepapers to engaging newsletters, our content is designed to nurture prospects and strengthen relationships with existing clients.",
-        capabilities: [
-            "Educational whitepapers and ebooks",
-            "Compliance-approved newsletters",
-            "Executive ghostwriting for LinkedIn and publications",
-            "PR and media placement strategies",
-            "Investment commentary and market analysis",
-            "Client-facing financial education content"
-        ],
-        benefits: [
-            "Establish expertise in specific wealth management niches",
-            "Build trust through value-driven, educational content",
-            "Nurture prospects through the extended decision cycle",
-            "Create reusable content assets for multiple channels",
-            "Enhance reputation among centers of influence"
-        ],
-        clientTypes: ["RIAs", "Family Offices", "Wealth Managers", "Financial Advisors"],
-        metrics: [
-            { stat: "68%", label: "Increase in qualified lead generation" },
-            { stat: "2.4x", label: "Higher engagement with targeted content" }
-        ]
-    },
-    {
-        id: "seo-website",
-        icon: <Globe className="w-6 h-6" />,
-        title: "SEO & Website Optimization",
-        subtitle: "Improve visibility and generate qualified inbound leads",
-        description: "We enhance your digital presence through strategic SEO and website optimization tailored to wealth management firms. Our approach focuses on attracting qualified prospects actively searching for wealth management services while ensuring full compliance with regulatory requirements.",
-        capabilities: [
-            "Comprehensive SEO audits and strategy",
-            "Keyword research for wealth management",
-            "Technical SEO implementation",
-            "Content optimization for search visibility",
-            "Compliant landing page development",
-            "Local SEO for advisors with geographic focus",
-            "Website UX optimization for conversion"
-        ],
-        benefits: [
-            "Increase visibility for wealth management search terms",
-            "Generate qualified inbound leads",
-            "Improve website conversion rates",
-            "Enhance credibility through professional online presence",
-            "Reduce cost-per-acquisition compared to paid channels"
-        ],
-        clientTypes: ["Independent Advisors", "RIAs", "Multi-Family Offices", "Boutique Wealth Firms"],
-        metrics: [
-            { stat: "84%", label: "Increase in qualified organic traffic" },
-            { stat: "3.2x", label: "Improvement in lead quality from website" }
-        ]
-    },
-    {
-        id: "paid-media",
-        icon: <CreditCard className="w-6 h-6" />,
-        title: "Paid Media Campaigns",
-        subtitle: "Drive targeted traffic and qualified leads",
-        description: "We design and manage sophisticated paid media campaigns across platforms like LinkedIn, Facebook, and Google, with precise targeting focused on high-net-worth individuals and institutions. Our campaigns are fully compliant with financial advertising regulations while delivering measurable results.",
-        capabilities: [
-            "LinkedIn advertising for HNW professional targeting",
-            "Google Ads for wealth management search terms",
-            "Meta (Facebook/Instagram) campaigns for demographics",
-            "Remarketing to nurture interested prospects",
-            "Landing page optimization for conversion",
-            "A/B testing for campaign improvement",
-            "Compliance review of all advertising materials"
-        ],
-        benefits: [
-            "Target ultra-specific high-value audiences",
-            "Accelerate lead generation with immediate visibility",
-            "Gain competitive intelligence through platform insights",
-            "Test messaging efficiently before wider rollout",
-            "Scale successful campaigns as practice grows"
-        ],
-        clientTypes: ["Growing RIAs", "Wealth Management Firms", "Family Offices", "Financial Advisors"],
-        metrics: [
-            { stat: "4.7x", label: "Return on ad spend (ROAS)" },
-            { stat: "41%", label: "Lower cost-per-acquisition vs. industry average" }
-        ]
-    },
-    {
-        id: "account-based-marketing",
-        icon: <Users className="w-6 h-6" />,
-        title: "Account-Based Marketing",
-        subtitle: "Personalized outreach for high-value prospects",
-        description: "Our account-based marketing approach identifies and targets specific high-value prospects with personalized outreach campaigns. Particularly effective for wealth management firms targeting UHNW individuals, family offices, or institutional clients with complex needs.",
-        capabilities: [
-            "Ideal client profile development",
-            "Target account identification and research",
-            "Multi-channel personalized campaigns",
-            "Executive-level content development",
-            "Email sequence creation and management",
-            "LinkedIn Sales Navigator strategies",
-            "Webinar and event invitation campaigns"
-        ],
-        benefits: [
-            "Focus resources on highest-potential prospects",
-            "Create personalized approaches for UHNW individuals",
-            "Coordinate marketing with wealth advisor outreach",
-            "Build relationships with centers of influence",
-            "Establish presence with institutional targets"
-        ],
-        clientTypes: ["Multi-Family Offices", "UHNW-Focused RIAs", "Institutional Wealth Managers"],
-        metrics: [
-            { stat: "62%", label: "Higher meeting acceptance rate" },
-            { stat: "2.8x", label: "Larger average AUM from targeted accounts" }
-        ]
-    },
-    {
-        id: "design-branding",
-        icon: <PenTool className="w-6 h-6" />,
-        title: "Design & Branding",
-        subtitle: "Compliance-aware, client-ready brand assets",
-        description: "We create sophisticated, compliance-approved visual assets and branded materials that reflect the premium nature of wealth management services. Our design approach balances professional aesthetics with regulatory requirements to build trust and credibility.",
-        capabilities: [
-            "Brand identity development",
-            "Pitch deck and presentation design",
-            "Investment proposal templates",
-            "Client-facing collateral",
-            "Digital marketing assets",
-            "Compliance-reviewed visual content",
-            "Consistent brand implementation"
-        ],
-        benefits: [
-            "Project professionalism and stability to prospects",
-            "Create consistent experience across touchpoints",
-            "Differentiate from generic financial advisors",
-            "Develop reusable templates for marketing efficiency",
-            "Support business development with premium materials"
-        ],
-        clientTypes: ["Established RIAs", "Boutique Wealth Firms", "Family Offices", "Financial Advisors"],
-        metrics: [
-            { stat: "48%", label: "Increase in proposal conversion rates" },
-            { stat: "87%", label: "Client satisfaction with branded materials" }
-        ]
-    },
-    {
-        id: "webinars-events",
-        icon: <Calendar className="w-6 h-6" />,
-        title: "Webinars & Events",
-        subtitle: "Extend visibility and convert attendees into clients",
-        description: "We develop and promote educational webinars and events that demonstrate your expertise while generating qualified leads. Our approach includes creating CE-eligible content for advisors and educational programs for prospective clients, with full campaign support.",
-        capabilities: [
-            "Educational webinar development",
-            "CE-credit eligible content creation",
-            "Virtual and in-person event planning",
-            "Panel discussion coordination",
-            "Attendee acquisition campaigns",
-            "Follow-up sequence development",
-            "Event success measurement"
-        ],
-        benefits: [
-            "Demonstrate expertise in specific wealth topics",
-            "Generate qualified leads in target segments",
-            "Build relationships through educational value",
-            "Create reusable content from event recordings",
-            "Establish thought leadership in wealth management"
-        ],
-        clientTypes: ["RIAs", "Wealth Management Firms", "Family Offices", "Financial Service Providers"],
-        metrics: [
-            { stat: "54%", label: "Lead-to-meeting conversion from events" },
-            { stat: "3.6x", label: "Higher engagement than traditional outreach" }
-        ]
-    }
-];
-
-// Main component
 const ServicesList = () => {
-    const sectionRef = useRef<HTMLElement>(null);
+    const [expandedCategory, setExpandedCategory] = useState<string | null>("strategic");
 
-    // Subtle scroll animations
-    const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ["start end", "end start"]
-    });
+    // 14 services organized into 7 categories - FROM DRAFT
+    const serviceCategories: ServiceCategory[] = [
+        {
+            id: "strategic",
+            icon: <Target className="w-6 h-6" />,
+            title: "A. Strategic Services",
+            description: "High-level planning and strategic marketing initiatives",
+            services: [
+                {
+                    id: "paid-campaign-mgmt",
+                    title: "Paid Campaign Management",
+                    description: "Strategic planning and execution across all marketing channels to maximize ROI and drive qualified leads.",
+                    capabilities: [
+                        "Strategic planning across all channels",
+                        "Campaign design & ROI planning",
+                        "Analytics design & tracking implementation",
+                        "Tools integration & compliance setup"
+                    ]
+                },
+                {
+                    id: "abm",
+                    title: "Account-Based Marketing (ABM)",
+                    description: "Targeted marketing strategies for high-value prospects and institutions.",
+                    capabilities: [
+                        "High-value prospect targeting",
+                        "Personalized outreach strategies",
+                        "Multi-touch engagement campaigns",
+                        "CRM integration & lead scoring"
+                    ]
+                }
+            ]
+        },
+        {
+            id: "paid-media",
+            icon: <Megaphone className="w-6 h-6" />,
+            title: "B. Paid Media Execution",
+            description: "Multi-platform advertising campaigns to reach your ideal clients",
+            services: [
+                {
+                    id: "multi-platform-ads",
+                    title: "Multi-Platform Paid Advertising",
+                    description: "Comprehensive paid advertising across multiple platforms to generate qualified leads.",
+                    capabilities: [
+                        "LinkedIn Ads (RIA & client acquisition)",
+                        "Google Ads (Search & Display)",
+                        "Facebook/Meta Ads (B2B & lead gen)",
+                        "YouTube Ads (Brand awareness)",
+                        "Discovery & Local Ads"
+                    ]
+                }
+            ]
+        },
+        {
+            id: "content-creative",
+            icon: <PenTool className="w-6 h-6" />,
+            title: "C. Content & Creative",
+            description: "High-quality content and design to engage your audience",
+            services: [
+                {
+                    id: "content-creation",
+                    title: "Content Creation",
+                    description: "Professional content assets for all marketing channels.",
+                    capabilities: [
+                        "Ad creatives & campaign assets",
+                        "Email campaign design",
+                        "Social media content",
+                        "Video processing & editing",
+                        "AI-powered creative optimization"
+                    ]
+                },
+                {
+                    id: "content-writing",
+                    title: "Content Writing & Blogging",
+                    description: "SEO-optimized content that establishes thought leadership.",
+                    capabilities: [
+                        "SEO-optimized blog posts (10+ monthly)",
+                        "Email campaign copy",
+                        "PR articles & thought leadership",
+                        "Multi-language content support"
+                    ]
+                },
+                {
+                    id: "design",
+                    title: "Design Services",
+                    description: "Professional design for all marketing materials.",
+                    capabilities: [
+                        "Brand identity & visual systems",
+                        "Brochures & presentations",
+                        "Promotional materials",
+                        "Landing page design"
+                    ]
+                }
+            ]
+        },
+        {
+            id: "organic",
+            icon: <Search className="w-6 h-6" />,
+            title: "D. Organic Growth",
+            description: "Long-term strategies to build sustainable visibility",
+            services: [
+                {
+                    id: "seo",
+                    title: "SEO Services",
+                    description: "Comprehensive search engine optimization to drive organic traffic.",
+                    capabilities: [
+                        "Keyword research & strategy",
+                        "On-page & off-page optimization",
+                        "Local SEO for RIAs",
+                        "Technical SEO audits",
+                        "10+ monthly blogs"
+                    ]
+                },
+                {
+                    id: "social-media",
+                    title: "Social Media Management",
+                    description: "Professional social media presence across all platforms.",
+                    capabilities: [
+                        "25 creatives monthly across 5 platforms",
+                        "Facebook, Instagram, LinkedIn, Twitter, GMB",
+                        "Community engagement",
+                        "Social listening & monitoring"
+                    ]
+                }
+            ]
+        },
+        {
+            id: "conversion",
+            icon: <MousePointerClick className="w-6 h-6" />,
+            title: "E. Conversion Optimization",
+            description: "Turn prospects into clients through optimized experiences",
+            services: [
+                {
+                    id: "landing-pages",
+                    title: "Landing Page Creation",
+                    description: "High-converting landing pages designed for lead capture.",
+                    capabilities: [
+                        "Campaign-specific pages",
+                        "Webinar registration pages",
+                        "Lead capture optimization",
+                        "A/B testing & analytics"
+                    ]
+                },
+                {
+                    id: "webinars",
+                    title: "Webinars & Educational Events",
+                    description: "Educational marketing events that build trust and generate leads.",
+                    capabilities: [
+                        "Webinar strategy & planning",
+                        "Registration funnel optimization",
+                        "Educational content development",
+                        "Post-event nurture campaigns",
+                        "Compliance-approved presentations"
+                    ]
+                }
+            ]
+        },
+        {
+            id: "analytics",
+            icon: <BarChart3 className="w-6 h-6" />,
+            title: "F. Data & Analytics",
+            description: "Data-driven insights to optimize performance",
+            services: [
+                {
+                    id: "analytics",
+                    title: "Real-Time Analytics & Reporting",
+                    description: "Comprehensive tracking and reporting on all marketing activities.",
+                    capabilities: [
+                        "Performance dashboards",
+                        "Lead tracking & attribution",
+                        "City-wise & demographic analysis",
+                        "Campaign optimization insights",
+                        "ROI tracking"
+                    ]
+                }
+            ]
+        },
+        {
+            id: "operations",
+            icon: <Database className="w-6 h-6" />,
+            title: "G. Operations & Support",
+            description: "Backend systems and ongoing support",
+            services: [
+                {
+                    id: "crm",
+                    title: "CRM & Lead Management",
+                    description: "Streamlined lead management and customer communications.",
+                    capabilities: [
+                        "Lead qualification & scoring",
+                        "Customer communications",
+                        "Pipeline management",
+                        "Sales handoff workflows"
+                    ]
+                },
+                {
+                    id: "listing-mgmt",
+                    title: "Listing Management",
+                    description: "Optimize your business listings across directories.",
+                    capabilities: [
+                        "Business directory optimization",
+                        "Google Business Profile",
+                        "Category approvals & monitoring"
+                    ]
+                },
+                {
+                    id: "pr",
+                    title: "PR & Media Placement",
+                    description: "Media relations and brand visibility campaigns.",
+                    capabilities: [
+                        "Press release distribution",
+                        "Media outreach & placement",
+                        "Brand visibility campaigns"
+                    ]
+                }
+            ]
+        }
+    ];
 
-    const backgroundY = useTransform(scrollYProgress, [0, 1], [0, 50]);
+    const toggleCategory = (categoryId: string) => {
+        setExpandedCategory(expandedCategory === categoryId ? null : categoryId);
+    };
 
     return (
-        <section
-            ref={sectionRef}
-            className="py-24 md:py-32 bg-white relative overflow-hidden"
-        >
-            {/* Subtle background elements */}
-            <motion.div
-                className="absolute inset-0 opacity-[0.02]"
-                style={{ y: backgroundY }}
-            >
-                <div className="absolute inset-0" style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234F6BFF' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-                    backgroundSize: '60px'
-                }}></div>
-            </motion.div>
-
-            <div className="container mx-auto px-6 relative z-10">
+        <section className="py-24 bg-white relative">
+            <div className="container mx-auto px-6">
                 <div className="max-w-6xl mx-auto">
-                    {/* Introduction */}
+                    {/* Section intro */}
                     <motion.div
-                        className="text-center mb-20"
-                        initial={{ opacity: 0, y: 30 }}
+                        className="text-center mb-16"
+                        initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7 }}
                     >
-                        <h2 className="text-4xl md:text-5xl font-display font-light tracking-tight text-foreground mb-6">
-                            Our <span className="text-ph">Comprehensive</span> Services
+                        <h2 className="text-3xl md:text-4xl font-display font-light tracking-tight text-foreground mb-4">
+                            Service Delivery{" "}
+                            <span className="text-ph font-normal">Philosophy</span>
                         </h2>
-                        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                            Each service is specifically designed for the unique needs and regulatory
-                            requirements of wealth management firms.
-                        </p>
-                    </motion.div>
-
-                    {/* Services List */}
-                    <div className="space-y-32">
-                        {services.map((service, index) => (
-                            <ServiceItem
-                                key={service.id}
-                                service={service}
-                                index={index}
-                                isLast={index === services.length - 1}
-                            />
-                        ))}
-                    </div>
-                </div>
-            </div>
-        </section>
-    );
-};
-
-// Individual service component with sophisticated animations
-const ServiceItem = ({ service, index, isLast }: { service: ServiceProps; index: number; isLast: boolean }) => {
-    const itemRef = useRef<HTMLDivElement>(null);
-
-    // Scroll-triggered animations
-    const { scrollYProgress } = useScroll({
-        target: itemRef,
-        offset: ["start end", "center center"]
-    });
-
-    const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
-    const y = useTransform(scrollYProgress, [0, 0.3], [50, 0]);
-
-    return (
-        <div
-            ref={itemRef}
-            id={service.id}
-            className={`relative ${!isLast ? 'pb-16 border-b border-gray-100' : ''}`}
-        >
-            {/* Animated service content */}
-            <motion.div
-                style={{ opacity, y }}
-                className="grid grid-cols-1 lg:grid-cols-3 gap-12"
-            >
-                {/* Left column - Service info */}
-                <div className="lg:col-span-1">
-                    <div className="sticky top-32">
-                        <div className="mb-6">
-                            <div className="w-16 h-16 rounded-full bg-ph/10 text-ph flex items-center justify-center mb-6">
-                                {service.icon}
-                            </div>
-                            <h3 className="text-3xl font-display font-light text-foreground mb-3">
-                                {service.title}
-                            </h3>
-                            <div className="h-1 w-16 bg-ph mb-4" />
-                            <p className="text-lg text-muted-foreground mb-6">
-                                {service.subtitle}
-                            </p>
-                        </div>
-
-                        {/* Client types */}
-                        <div className="mb-8">
-                            <p className="text-sm text-muted-foreground mb-3 uppercase tracking-wider">
-                                Ideal for:
-                            </p>
-                            <div className="flex flex-wrap gap-2">
-                                {service.clientTypes.map((client) => (
-                                    <span
-                                        key={client}
-                                        className="px-3 py-1 bg-gray-50 border border-gray-200 rounded-full text-sm text-muted-foreground"
-                                    >
-                                        {client}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Performance metrics */}
-                        <div className="space-y-4">
-                            {service.metrics.map((metric, i) => (
-                                <div key={i} className="flex items-baseline">
-                                    <span className="text-3xl font-display text-ph mr-3">
-                                        {metric.stat}
-                                    </span>
-                                    <span className="text-sm text-muted-foreground">
-                                        {metric.label}
-                                    </span>
+                        <div className="flex flex-wrap justify-center gap-6 mt-8">
+                            {[
+                                "Compliance-first approach",
+                                "Transparent deliverables",
+                                "Monthly reporting & optimization",
+                                "Dedicated account teams"
+                            ].map((item, index) => (
+                                <div key={index} className="flex items-center text-sm text-muted-foreground">
+                                    <CheckCircle className="w-4 h-4 text-ph mr-2" />
+                                    {item}
                                 </div>
                             ))}
                         </div>
+                    </motion.div>
 
-                        {/* CTA Button */}
-                        <motion.div
-                            className="mt-8"
-                            whileHover={{ y: -3 }}
-                            whileTap={{ scale: 0.98 }}
-                        >
-                            <Link
-                                to="/contact"
-                                className="inline-flex items-center px-6 py-3 bg-ph text-white text-sm font-medium rounded-sm shadow-sm hover:shadow-md transition-all"
+                    {/* Accordion of service categories */}
+                    <div className="space-y-4">
+                        {serviceCategories.map((category, index) => (
+                            <motion.div
+                                key={category.id}
+                                className="bg-[#F8FAFF] border border-gray-200 rounded-lg overflow-hidden"
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
                             >
-                                Discuss This Service
-                                <ArrowRight className="ml-2 w-4 h-4" />
-                            </Link>
-                        </motion.div>
-                    </div>
-                </div>
+                                {/* Category header - clickable */}
+                                <button
+                                    onClick={() => toggleCategory(category.id)}
+                                    className="w-full px-8 py-6 flex items-center justify-between hover:bg-white/50 transition-colors"
+                                >
+                                    <div className="flex items-center">
+                                        <div className="w-12 h-12 rounded-full bg-ph/10 flex items-center justify-center text-ph mr-4">
+                                            {category.icon}
+                                        </div>
+                                        <div className="text-left">
+                                            <h3 className="text-xl font-medium text-foreground mb-1">
+                                                {category.title}
+                                            </h3>
+                                            <p className="text-sm text-muted-foreground">
+                                                {category.description}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <motion.div
+                                        animate={{ rotate: expandedCategory === category.id ? 180 : 0 }}
+                                        transition={{ duration: 0.3 }}
+                                    >
+                                        <ChevronDown className="w-6 h-6 text-ph" />
+                                    </motion.div>
+                                </button>
 
-                {/* Right column - Details */}
-                <div className="lg:col-span-2">
-                    {/* Description */}
-                    <div className="bg-[#F8FAFF] p-8 mb-12">
-                        <p className="text-lg text-foreground leading-relaxed">
-                            {service.description}
+                                {/* Category services - expandable */}
+                                <AnimatePresence>
+                                    {expandedCategory === category.id && (
+                                        <motion.div
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{ height: "auto", opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            transition={{ duration: 0.3 }}
+                                            className="overflow-hidden"
+                                        >
+                                            <div className="px-8 pb-6 space-y-6">
+                                                {category.services.map((service, serviceIndex) => (
+                                                    <motion.div
+                                                        key={service.id}
+                                                        className="bg-white p-6 rounded-lg border border-gray-100"
+                                                        initial={{ opacity: 0, y: 10 }}
+                                                        animate={{ opacity: 1, y: 0 }}
+                                                        transition={{ duration: 0.3, delay: serviceIndex * 0.1 }}
+                                                    >
+                                                        <h4 className="text-lg font-medium text-foreground mb-2">
+                                                            {serviceIndex + 1}. {service.title}
+                                                        </h4>
+                                                        <p className="text-sm text-muted-foreground mb-4">
+                                                            {service.description}
+                                                        </p>
+                                                        <ul className="space-y-2">
+                                                            {service.capabilities.map((capability, capIndex) => (
+                                                                <li
+                                                                    key={capIndex}
+                                                                    className="flex items-start text-sm text-muted-foreground"
+                                                                >
+                                                                    <CheckCircle className="w-4 h-4 text-ph mr-2 mt-0.5 flex-shrink-0" />
+                                                                    {capability}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </motion.div>
+                                                ))}
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </motion.div>
+                        ))}
+                    </div>
+
+                    {/* Bottom summary */}
+                    <motion.div
+                        className="mt-16 text-center"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7 }}
+                    >
+                        <p className="text-muted-foreground mb-6">
+                            All services are designed with FINRA/SEC compliance in mind and include monthly reporting
                         </p>
-                    </div>
-
-                    {/* Capabilities and Benefits */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                        {/* Capabilities */}
-                        <div>
-                            <h4 className="text-xl font-medium text-foreground mb-6">
-                                Capabilities
-                            </h4>
-                            <ul className="space-y-4">
-                                {service.capabilities.map((capability, i) => (
-                                    <motion.li
-                                        key={i}
-                                        className="flex items-start"
-                                        initial={{ opacity: 0, x: -10 }}
-                                        whileInView={{ opacity: 1, x: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ duration: 0.5, delay: 0.1 * i }}
-                                    >
-                                        <CheckCircle className="w-5 h-5 text-ph mr-3 mt-0.5 flex-shrink-0" />
-                                        <span className="text-muted-foreground">
-                                            {capability}
-                                        </span>
-                                    </motion.li>
-                                ))}
-                            </ul>
-                        </div>
-
-                        {/* Benefits */}
-                        <div>
-                            <h4 className="text-xl font-medium text-foreground mb-6">
-                                Benefits
-                            </h4>
-                            <ul className="space-y-4">
-                                {service.benefits.map((benefit, i) => (
-                                    <motion.li
-                                        key={i}
-                                        className="flex items-start"
-                                        initial={{ opacity: 0, x: -10 }}
-                                        whileInView={{ opacity: 1, x: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ duration: 0.5, delay: 0.1 * i }}
-                                    >
-                                        <CheckCircle className="w-5 h-5 text-ph mr-3 mt-0.5 flex-shrink-0" />
-                                        <span className="text-muted-foreground">
-                                            {benefit}
-                                        </span>
-                                    </motion.li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
+                    </motion.div>
                 </div>
-            </motion.div>
-        </div>
+            </div>
+        </section>
     );
 };
 

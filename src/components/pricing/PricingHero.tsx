@@ -1,7 +1,7 @@
 // src/components/pricing/PricingHero.tsx
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowDown, Shield, BarChart, Users } from "lucide-react";
+import { ArrowDown, Shield, BarChart, Zap } from "lucide-react";
 
 const PricingHero = () => {
     return (
@@ -31,29 +31,33 @@ const PricingHero = () => {
                 ></motion.div>
 
                 <motion.div
-                    className="absolute top-[60%] left-[30%] w-16 h-16 rounded-full border border-ph/[0.05]"
+                    className="absolute top-[50%] right-[40%] w-16 h-16 rounded-full border border-ph/[0.05]"
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 1.5, ease: "easeOut", delay: 0.4 }}
                 ></motion.div>
             </div>
 
-            <div className="container mx-auto px-6 z-10 relative">
+            <div className="container mx-auto px-6 relative z-10">
                 <div className="max-w-5xl mx-auto text-center">
-                    {/* Pre-title with elegant fade up animation */}
+                    {/* Badge */}
                     <motion.div
-                        className="flex items-center justify-center mb-6"
-                        initial={{ opacity: 0, y: 20 }}
+                        className="inline-flex items-center justify-center mb-8"
+                        initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{
+                            duration: 1.2,
+                            ease: [0.22, 1, 0.36, 1]
+                        }}
                     >
-                        <div className="h-px w-8 bg-ph/40 mr-3"></div>
-                        <span className="text-sm text-ph font-medium uppercase tracking-wider">Investment in Growth</span>
-                        <div className="h-px w-8 bg-ph/40 ml-3"></div>
+                        <span className="inline-block py-1 px-3 bg-ph/10 text-ph font-medium rounded-full text-sm">
+                            Transparent Pricing
+                        </span>
                     </motion.div>
 
-                    {/* Main title with sophisticated text highlight animations */}
-                    <motion.div
+                    {/* Main headline - Updated from draft */}
+                    <motion.h1
+                        className="text-5xl md:text-6xl lg:text-7xl font-display font-light leading-[1.2] tracking-tight text-foreground mb-8"
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{
@@ -61,27 +65,24 @@ const PricingHero = () => {
                             ease: [0.22, 1, 0.36, 1],
                             delay: 0.2
                         }}
-                        className="mb-8"
                     >
-                        <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-light leading-[1.3] tracking-tight text-[#0A2540] mb-3">
-                            <span className="relative inline-block">
-                                Transparent
-                                <motion.span
-                                    className="absolute bottom-2 left-0 w-full h-3 bg-ph/10 -z-10 rounded-sm"
-                                    initial={{ scaleX: 0, originX: 0 }}
-                                    animate={{ scaleX: 1 }}
-                                    transition={{ delay: 0.8, duration: 0.8, ease: "easeOut" }}
-                                />
-                            </span> Pricing for
-                        </h1>
-                        <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-light leading-[1.3] tracking-tight">
-                            <span className="text-ph font-normal">Wealth Management</span>
-                        </h1>
-                    </motion.div>
+                        Transparent, Scalable Pricing for{" "}
+                        <span className="relative inline-block">
+                            <span className="relative z-10 text-ph font-normal">
+                                Wealth Management Growth
+                            </span>
+                            <motion.span
+                                className="absolute bottom-2 left-0 w-full h-3 bg-ph/10 -z-10 rounded-sm"
+                                initial={{ scaleX: 0, originX: 0 }}
+                                animate={{ scaleX: 1 }}
+                                transition={{ delay: 1, duration: 0.8, ease: "easeOut" }}
+                            />
+                        </span>
+                    </motion.h1>
 
-                    {/* Subtitle with fade up animation */}
+                    {/* Subheadline - Updated from draft */}
                     <motion.p
-                        className="text-xl text-muted-foreground max-w-3xl mx-auto text-center mb-16"
+                        className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto mb-16 leading-relaxed"
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{
@@ -90,11 +91,10 @@ const PricingHero = () => {
                             delay: 0.4
                         }}
                     >
-                        Flexible service packages designed specifically for wealth management firms
-                        at every stage of growth. No hidden fees, just clear value.
+                        Choose the package that fits your firm's AUM growth goals. All packages include FINRA/SEC compliance, webinar funnel optimization, and monthly reporting.
                     </motion.p>
 
-                    {/* Value propositions with premium card styling */}
+                    {/* Value propositions with premium card styling - Updated icons and content */}
                     <motion.div
                         className="flex flex-wrap justify-center gap-8 mb-20"
                         initial={{ opacity: 0, y: 30 }}
@@ -108,18 +108,18 @@ const PricingHero = () => {
                         {[
                             {
                                 icon: <Shield className="w-6 h-6" />,
-                                title: "Compliance-First",
+                                title: "FINRA/SEC Compliance",
                                 description: "Built-in regulatory compliance with every package"
                             },
                             {
-                                icon: <BarChart className="w-6 h-6" />,
-                                title: "Results-Driven",
-                                description: "Clear reporting on performance and ROI"
+                                icon: <Zap className="w-6 h-6" />,
+                                title: "Webinar Funnel Optimization",
+                                description: "Educational marketing strategies that convert"
                             },
                             {
-                                icon: <Users className="w-6 h-6" />,
-                                title: "Specialized Teams",
-                                description: "Industry experts dedicated to your success"
+                                icon: <BarChart className="w-6 h-6" />,
+                                title: "Monthly Reporting",
+                                description: "Clear visibility on performance and ROI"
                             }
                         ].map((prop, index) => (
                             <motion.div
@@ -146,32 +146,23 @@ const PricingHero = () => {
 
                     {/* Refined scroll indicator */}
                     <motion.div
-                        className="flex justify-center"
+                        className="flex flex-col items-center justify-center"
                         initial={{ opacity: 0 }}
-                        animate={{ opacity: 0.7 }}
-                        transition={{
-                            duration: 1.2,
-                            delay: 1
-                        }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 1.2, duration: 0.8 }}
                     >
+                        <span className="text-sm text-muted-foreground mb-2">Explore Packages</span>
                         <motion.div
-                            className="flex flex-col items-center text-muted-foreground hover:text-ph transition-colors duration-300 cursor-pointer"
                             animate={{
-                                y: [0, 8, 0],
+                                y: [0, 10, 0]
                             }}
                             transition={{
-                                duration: 2.5,
+                                duration: 1.5,
                                 repeat: Infinity,
-                                repeatType: "loop",
-                                ease: "easeInOut",
-                                repeatDelay: 0.5
-                            }}
-                            onClick={() => {
-                                document.getElementById('pricing-plans')?.scrollIntoView({ behavior: 'smooth' });
+                                ease: "easeInOut"
                             }}
                         >
-                            <span className="text-sm mb-2">Explore Our Plans</span>
-                            <ArrowDown className="w-5 h-5" />
+                            <ArrowDown className="w-5 h-5 text-ph" />
                         </motion.div>
                     </motion.div>
                 </div>

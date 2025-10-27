@@ -58,7 +58,7 @@ const ServicesCTA = () => {
                 "Performance tracking",
                 "Compliance integration"
             ],
-            price: "Starting at $8,000/month",
+            price: "Starting at $13,000/month",
             cta: "Explore Full Service"
         },
         {

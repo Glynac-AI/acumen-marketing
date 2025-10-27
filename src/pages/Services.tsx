@@ -2,18 +2,14 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-// Import section components
 import ServicesHero from "@/components/services/ServicesHero";
 import ServicesList from "@/components/services/ServicesList";
-import ProcessSection from "@/components/services/ProcessSection";
-import CaseStudies from "@/components/services/CaseStudies";
 import ServicesFAQ from "@/components/services/ServicesFAQ";
 import ServicesCTA from "@/components/services/ServicesCTA";
 
 const Services = () => {
     const pageRef = useRef<HTMLDivElement>(null);
 
-    // Create subtle parallax effect for background elements
     const { scrollYProgress } = useScroll({
         target: pageRef,
         offset: ["start start", "end end"]
@@ -29,7 +25,6 @@ const Services = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
-            {/* Subtle background elements */}
             <div className="fixed inset-0 bg-[linear-gradient(rgba(79,107,255,0.015)_1px,transparent_1px),linear-gradient(to_right,rgba(79,107,255,0.015)_1px,transparent_1px)] bg-[length:50px_50px] pointer-events-none z-0"></div>
 
             <motion.div
@@ -37,26 +32,13 @@ const Services = () => {
                 style={{ y: backgroundY }}
             />
 
-            {/* Page Sections */}
             <ServicesHero />
-
-            {/* Visual section divider - subtle animated line */}
             <SectionDivider />
 
             <ServicesList />
-
-            <SectionDivider />
-
-            <ProcessSection />
-
-            <SectionDivider />
-
-            <CaseStudies />
-
             <SectionDivider />
 
             <ServicesFAQ />
-
             <SectionDivider />
 
             <ServicesCTA />
@@ -64,7 +46,6 @@ const Services = () => {
     );
 };
 
-// Reusable section divider component
 const SectionDivider = () => {
     return (
         <div className="relative">
@@ -80,5 +61,3 @@ const SectionDivider = () => {
 };
 
 export default Services;
-
-

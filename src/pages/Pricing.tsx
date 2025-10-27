@@ -4,10 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 // Import pricing section components
 import PricingHero from "@/components/pricing/PricingHero";
-import PricingTabs from "@/components/pricing/PricingTabs";
 import RetainerPlans from "@/components/pricing/RetainerPlans";
-import ProjectPlans from "@/components/pricing/ProjectPlans";
-import AdvisoryPlans from "@/components/pricing/AdvisoryPlans";
 import PricingFAQ from "@/components/pricing/PricingFAQ";
 import PricingCTA from "@/components/pricing/PricingCTA";
 
@@ -23,19 +20,7 @@ const Pricing = () => {
 
     const backgroundY = useTransform(scrollYProgress, [0, 1], [0, 50]);
 
-    // Display appropriate plans based on active tab
-    const renderActivePlans = () => {
-        switch (activeTab) {
-            case "retainers":
-                return <RetainerPlans />;
-            case "projects":
-                return <ProjectPlans />;
-            case "advisory":
-                return <AdvisoryPlans />;
-            default:
-                return <RetainerPlans />;
-        }
-    };
+    
 
     return (
         <motion.div
@@ -59,10 +44,7 @@ const Pricing = () => {
             {/* Visual section divider - subtle animated line */}
             <SectionDivider />
 
-            <PricingTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-
-            {/* Render the appropriate plans based on active tab */}
-            {renderActivePlans()}
+            <RetainerPlans />
 
             <SectionDivider />
 

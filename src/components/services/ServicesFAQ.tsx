@@ -36,7 +36,7 @@ const faqItems: FAQItemProps[] = [
         answer: "Our targeting approach for HNW individuals and institutions is sophisticated and multi-faceted. We use a combination of demographic, psychographic, behavioral, and interest-based targeting across digital platforms. For ultra-high-net-worth prospects, we employ account-based marketing strategies that identify specific individuals or organizations. We also leverage professional networks, centers of influence, and niche interest communities where wealthy individuals engage. Our approach prioritizes quality over quantity, focusing on reaching the right prospects rather than maximizing reach."
     },
     {
-        question: "What makes Acumen Marketing different from other marketing agencies?",
+        question: "What makes Acumen Labs different from other marketing agencies?",
         answer: "Unlike general marketing agencies, we exclusively serve wealth management firms, RIAs, family offices, and financial advisors. This specialization gives us deep understanding of your business model, clients, and regulatory environment. Our team has extensive experience in wealth management marketing, and we've developed specialized processes that address the unique challenges in this space. We focus on metrics that matter to wealth management firms—like AUM growth and client acquisition—rather than vanity marketing metrics."
     },
     {
