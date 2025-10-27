@@ -6,7 +6,7 @@ import { ArrowRight, CheckCircle } from "lucide-react";
 
 const HeroSection = () => {
     return (
-        <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden">
+        <section className="relative min-h-[80vh] flex items-center justify-center pt-32 pb-20 overflow-hidden">
             {/* Premium gradient background */}
             <div className="absolute inset-0 bg-gradient-to-br from-[#F8FAFF] via-[#F4F8FF] to-[#EDF3FF] z-0"></div>
 
