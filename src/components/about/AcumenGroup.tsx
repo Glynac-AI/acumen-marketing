@@ -1,140 +1,92 @@
 // src/components/about/AcumenGroup.tsx
-import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import {
-    Users,
-    LineChart,
-    PieChart,
-    BookOpen,
-    ArrowUpRight
-} from "lucide-react";
-
-// Define company data structure
-interface CompanyProps {
-    icon: React.ReactNode;
-    name: string;
-    description: string;
-    services: string[];
-    url: string;
-}
-
-// Acumen Group companies
-const companies: CompanyProps[] = [
-    {
-        icon: <LineChart className="w-6 h-6" />,
-        name: "Acumen Marketing",
-        description: "Specialized marketing services for wealth management firms, RIAs, family offices, and financial advisors.",
-        services: [
-            "Content & Thought Leadership",
-            "Digital Marketing",
-            "Paid Media",
-            "Account-Based Marketing",
-            "Design & Branding",
-            "Events & Webinars"
-        ],
-        url: "/"
-    },
-    {
-        icon: <Users className="w-6 h-6" />,
-        name: "Acumen Recruiting",
-        description: "Executive search and talent acquisition services focused on the wealth management industry.",
-        services: [
-            "Advisor Recruiting",
-            "Executive Search",
-            "Team Lift-Outs",
-            "Succession Planning",
-            "Compensation Analysis",
-            "Cultural Assessment"
-        ],
-        url: "https://acumen-recruiting.com"
-    },
-    {
-        icon: <PieChart className="w-6 h-6" />,
-        name: "Acumen Advisory",
-        description: "Strategic consulting services for wealth management firms seeking growth, optimization, or transition.",
-        services: [
-            "Growth Strategy",
-            "Operational Efficiency",
-            "Merger & Acquisition Support",
-            "Technology Selection",
-            "Business Valuation",
-            "Succession Planning"
-        ],
-        url: "https://acumen-advisory.com"
-    }
-];
+import React from "react";
+import { motion } from "framer-motion";
+import { Megaphone, TrendingUp, Users, Cpu, Home, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const AcumenGroup = () => {
-    const sectionRef = useRef<HTMLElement>(null);
-
-    // Scroll-based animations
-    const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ["start end", "end start"]
-    });
-
-    const backgroundY = useTransform(scrollYProgress, [0, 1], [0, 50]);
-    const titleOpacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
-    const titleY = useTransform(scrollYProgress, [0, 0.2], [50, 0]);
+    // ONLY 5 brands as per your confirmation
+    const brands = [
+        {
+            icon: <Megaphone className="w-6 h-6" />,
+            name: "Acumen Labs",
+            tagline: "Current Site",
+            description: "Digital marketing & lead generation",
+            services: [
+                "Performance-driven campaigns",
+                "Compliance-first execution",
+                "Multi-channel lead generation"
+            ],
+            highlight: true
+        },
+        {
+            icon: <TrendingUp className="w-6 h-6" />,
+            name: "Acumen Strategy",
+            description: "Business strategy consulting",
+            services: [
+                "Sales pipeline development",
+                "Market entry strategies",
+                "Data informs Labs' audience targeting"
+            ]
+        },
+        {
+            icon: <Users className="w-6 h-6" />,
+            name: "Acumen Talent",
+            description: "Advisor recruitment",
+            services: [
+                "Executive search for wealth management",
+                "Onboarding & training",
+                "New advisors onboarded to Glynac.AI"
+            ]
+        },
+        {
+            icon: <Cpu className="w-6 h-6" />,
+            name: "Glynac.AI",
+            description: "AI-powered productivity tools for advisors",
+            services: [
+                "Compliance automation",
+                "Client service enhancement",
+                "Performance data guides Talent recruitment"
+            ]
+        },
+        {
+            icon: <Home className="w-6 h-6" />,
+            name: "Prairie Hill",
+            tagline: "Real Estate",
+            description: "Real estate investment opportunities",
+            services: [
+                "Investors introduced to Acumen Strategy",
+                "Cross-sell financial planning services"
+            ]
+        }
+    ];
 
     return (
-        <section
-            ref={sectionRef}
-            className="py-24 md:py-32 relative bg-white overflow-hidden"
-            id="acumen-group"
-        >
-            {/* Subtle pattern background */}
-            <motion.div
-                className="absolute inset-0 opacity-[0.03]"
-                style={{ y: backgroundY }}
-            >
-                <div className="absolute inset-0" style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234F6BFF' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-                    backgroundSize: '60px'
-                }}></div>
-            </motion.div>
-
-            <div className="container mx-auto px-6 relative z-10">
-                <motion.div
-                    className="text-center mb-20"
-                    style={{ opacity: titleOpacity, y: titleY }}
-                >
-                    <motion.span
-                        className="inline-block py-1 px-3 bg-ph/10 text-ph font-medium rounded-full text-sm mb-6"
-                        initial={{ opacity: 0, y: -10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.1, duration: 0.5 }}
-                    >
-                        The Acumen Group
-                    </motion.span>
-
-                    <motion.h2
-                        className="text-4xl md:text-5xl font-display font-light tracking-tight text-foreground mb-6"
+        <section className="py-24 bg-white relative">
+            <div className="container mx-auto px-6">
+                <div className="max-w-6xl mx-auto">
+                    {/* Section Header */}
+                    <motion.div
+                        className="text-center mb-16"
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.7 }}
                     >
-                        Part of a <span className="text-ph">Specialized Ecosystem</span>
-                    </motion.h2>
+                        <span className="text-sm font-medium text-ph tracking-wider uppercase mb-4 block">
+                            The Ecosystem
+                        </span>
+                        <h2 className="text-3xl md:text-4xl font-display font-light tracking-tight text-foreground mb-6">
+                            Part of a Larger <span className="text-ph font-normal">Vision</span>
+                        </h2>
+                        <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+                            Acumen Labs is part of an integrated ecosystem of companies serving the wealth management industry
+                        </p>
+                    </motion.div>
 
-                    <motion.p
-                        className="text-xl text-muted-foreground max-w-3xl mx-auto"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.7, delay: 0.1 }}
-                    >
-                        Acumen Marketing is part of the Acumen Group, a family of companies
-                        dedicated to serving the wealth management industry
-                    </motion.p>
-                </motion.div>
-
-                <div className="max-w-6xl mx-auto">
                     {/* Introduction */}
                     <motion.div
-                        className="bg-[#F8FAFF] p-8 mb-16 border border-gray-100"
+                        className="bg-[#F8FAFF] p-8 mb-16 border border-gray-100 rounded-lg"
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
@@ -149,105 +101,104 @@ const AcumenGroup = () => {
                             </div>
                             <div className="md:w-2/3">
                                 <p className="text-foreground leading-relaxed mb-4">
-                                    The Acumen Group was founded with a singular vision: to provide specialized
-                                    professional services exclusively for the wealth management industry. By
-                                    focusing on this niche, we've developed deep expertise that allows us to
-                                    deliver exceptional value to our clients.
+                                    The Acumen ecosystem was founded with a singular vision: to provide specialized services exclusively for the wealth management industry. By focusing on this niche, we've developed deep expertise that allows us to deliver exceptional value to our clients.
                                 </p>
                                 <p className="text-foreground leading-relaxed">
-                                    Each company within the Acumen Group addresses specific needs of wealth
-                                    management firms, from marketing and talent acquisition to strategic
-                                    consulting and education. Together, we offer a comprehensive suite of
-                                    services that help wealth management firms grow, optimize, and evolve.
+                                    Each company within the ecosystem addresses specific needs of wealth management firms, from marketing and talent acquisition to AI-powered productivity tools. Together, we offer a comprehensive suite of services that help wealth management firms grow, optimize, and evolve.
                                 </p>
                             </div>
                         </div>
                     </motion.div>
 
-                    {/* Companies grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-                        {companies.map((company, index) => (
+                    {/* Brands Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                        {brands.map((brand, index) => (
                             <motion.div
                                 key={index}
-                                className="bg-white border border-gray-200 p-8 group cursor-pointer"
+                                className={`p-8 rounded-lg border transition-all duration-300 ${brand.highlight
+                                        ? "bg-gradient-to-br from-ph to-ph-dark text-white border-transparent shadow-lg"
+                                        : "bg-white border-gray-100 hover:shadow-lg"
+                                    }`}
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: 0.1 * (index % 2) }}
-                                whileHover={{ y: -5, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
-                                onClick={() => window.open(company.url, company.name === "Acumen Marketing" ? "_self" : "_blank")}
+                                transition={{ duration: 0.6, delay: index * 0.1 }}
                             >
-                                <div className="flex items-start mb-6">
-                                    <div className="w-12 h-12 rounded-full bg-ph/10 flex items-center justify-center text-ph mr-4 flex-shrink-0">
-                                        {company.icon}
-                                    </div>
-                                    <div>
-                                        <h3 className="text-xl font-medium text-foreground mb-2 flex items-center">
-                                            {company.name}
-                                            <ArrowUpRight className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                        </h3>
-                                        <p className="text-muted-foreground">{company.description}</p>
-                                    </div>
+                                {/* Icon */}
+                                <div
+                                    className={`w-12 h-12 rounded-full flex items-center justify-center mb-4 ${brand.highlight ? "bg-white/20 text-white" : "bg-ph/10 text-ph"
+                                        }`}
+                                >
+                                    {brand.icon}
                                 </div>
 
-                                <div>
-                                    <h4 className="text-sm font-medium text-foreground mb-3">Services:</h4>
-                                    <div className="grid grid-cols-2 gap-2">
-                                        {company.services.map((service, idx) => (
-                                            <div key={idx} className="flex items-center text-sm">
-                                                <div className="w-1.5 h-1.5 rounded-full bg-ph mr-2"></div>
-                                                <span className="text-muted-foreground">{service}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
+                                {/* Brand Name */}
+                                <h3
+                                    className={`text-xl font-medium mb-2 ${brand.highlight ? "text-white" : "text-foreground"
+                                        }`}
+                                >
+                                    {brand.name}
+                                </h3>
 
-                                <div className="mt-6 pt-4 border-t border-gray-100 flex justify-end">
-                                    <span className="text-sm text-ph font-medium group-hover:underline">
-                                        {company.name === "Acumen Marketing" ? "You are here" : "Visit website"}
-                                    </span>
-                                </div>
+                                {/* Tagline */}
+                                {brand.tagline && (
+                                    <p
+                                        className={`text-sm mb-3 ${brand.highlight ? "text-white/80" : "text-ph"
+                                            }`}
+                                    >
+                                        {brand.tagline}
+                                    </p>
+                                )}
+
+                                {/* Description */}
+                                <p
+                                    className={`mb-4 ${brand.highlight ? "text-white/90" : "text-muted-foreground"
+                                        }`}
+                                >
+                                    {brand.description}
+                                </p>
+
+                                {/* Services */}
+                                <ul className="space-y-2">
+                                    {brand.services.map((service, idx) => (
+                                        <li
+                                            key={idx}
+                                            className={`flex items-start text-sm ${brand.highlight ? "text-white/80" : "text-muted-foreground"
+                                                }`}
+                                        >
+                                            <div
+                                                className={`w-1.5 h-1.5 rounded-full mt-2 mr-3 flex-shrink-0 ${brand.highlight ? "bg-white/60" : "bg-ph"
+                                                    }`}
+                                            ></div>
+                                            {service}
+                                        </li>
+                                    ))}
+                                </ul>
                             </motion.div>
                         ))}
                     </div>
 
-                    {/* Collaboration benefits */}
+                    {/* Bottom CTA */}
                     <motion.div
-                        className="text-center p-10 bg-[#F8FAFF] border border-gray-100"
-                        initial={{ opacity: 0, y: 30 }}
+                        className="text-center bg-[#F8FAFF] p-10 rounded-lg border border-gray-100"
+                        initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.7 }}
                     >
-                        <h3 className="text-xl font-medium text-foreground mb-6">Benefits of the Acumen Ecosystem</h3>
-
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            {[
-                                {
-                                    title: "Integrated Expertise",
-                                    description: "Access to specialized knowledge across all aspects of wealth management"
-                                },
-                                {
-                                    title: "Seamless Collaboration",
-                                    description: "Coordinated services that work together to support your firm's goals"
-                                },
-                                {
-                                    title: "Industry-Specific Solutions",
-                                    description: "Tailored approaches based on deep understanding of wealth management"
-                                }
-                            ].map((benefit, index) => (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.5, delay: 0.1 * index }}
-                                >
-                                    <div className="text-lg font-medium text-foreground mb-2">{benefit.title}</div>
-                                    <p className="text-sm text-muted-foreground">{benefit.description}</p>
-                                </motion.div>
-                            ))}
-                        </div>
+                        <h3 className="text-2xl font-medium text-foreground mb-4">
+                            Explore the Full Ecosystem
+                        </h3>
+                        <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+                            Learn more about how our integrated brands work together to amplify your firm's growth
+                        </p>
+                        <Link
+                            to="/ecosystem"
+                            className="inline-flex items-center px-6 py-3 bg-ph text-white font-medium rounded-lg hover:bg-ph-dark transition-all"
+                        >
+                            View Full Ecosystem
+                            <ArrowRight className="ml-2 w-5 h-5" />
+                        </Link>
                     </motion.div>
                 </div>
             </div>

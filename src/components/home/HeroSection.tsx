@@ -2,7 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, CheckCircle } from "lucide-react";
 
 const HeroSection = () => {
     return (
@@ -45,37 +45,72 @@ const HeroSection = () => {
                             Generate 15-120 MQLs monthly with transparent pricing and measurable ROI.
                         </motion.p>
 
-                        {/* CTAs */}
+                        {/* CTA Buttons - UPDATED */}
                         <motion.div
-                            className="flex flex-col sm:flex-row items-center justify-center gap-6"
+                            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.6 }}
                         >
-                            <motion.div
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                            >
+                            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                                 <Link
                                     to="/contact"
-                                    className="inline-flex items-center px-10 py-5 bg-ph text-white text-lg font-medium rounded-lg hover:bg-ph-dark transition-all shadow-lg shadow-ph/20"
+                                    className="inline-flex items-center px-8 py-4 bg-ph text-white font-medium rounded-lg hover:bg-ph-dark transition-all shadow-lg shadow-ph/20"
                                 >
                                     Book Your 90-Day Growth Sprint
-                                    <ArrowRight className="w-5 h-5 ml-2" />
+                                    <ArrowRight className="ml-2 w-5 h-5" />
                                 </Link>
                             </motion.div>
 
-                            <motion.div
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                            >
+                            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                                 <Link
                                     to="/pricing"
-                                    className="inline-flex items-center px-10 py-5 bg-white text-foreground text-lg font-medium rounded-lg border-2 border-gray-200 hover:border-ph transition-all"
+                                    className="inline-flex items-center px-8 py-4 bg-white text-foreground font-medium rounded-lg border-2 border-gray-200 hover:border-ph transition-all"
                                 >
                                     View Our Packages
                                 </Link>
                             </motion.div>
+                        </motion.div>
+
+                        {/* Trust Indicators - UPDATED WITH EXACT METRICS */}
+                        <motion.div
+                            className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.8 }}
+                        >
+                            {[
+                                {
+                                    metric: "92%",
+                                    label: "Client Satisfaction Rate"
+                                },
+                                {
+                                    metric: "$200-400",
+                                    label: "Cost Per Lead (Below Industry Average of $461)"
+                                },
+                                {
+                                    metric: "32%",
+                                    label: "Average AUM Growth in Year 1"
+                                }
+                            ].map((item, index) => (
+                                <motion.div
+                                    key={index}
+                                    className="bg-white/70 backdrop-blur-sm p-6 rounded-lg border border-gray-100 shadow-sm"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.6, delay: 0.9 + index * 0.1 }}
+                                >
+                                    <div className="flex items-center justify-center mb-2">
+                                        <CheckCircle className="w-5 h-5 text-ph mr-2" />
+                                        <div className="text-3xl font-display font-light text-ph">
+                                            {item.metric}
+                                        </div>
+                                    </div>
+                                    <p className="text-sm text-muted-foreground text-center">
+                                        {item.label}
+                                    </p>
+                                </motion.div>
+                            ))}
                         </motion.div>
                     </motion.div>
                 </div>

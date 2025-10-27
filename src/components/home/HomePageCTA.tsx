@@ -21,6 +21,7 @@ const HomePageCTA = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
                     >
+                        {/* UPDATED TEXT - From Draft */}
                         <h2 className="text-4xl md:text-5xl font-display font-light tracking-tight mb-6">
                             Ready to Start{" "}
                             <span className="font-normal">Growing?</span>
@@ -31,14 +32,14 @@ const HomePageCTA = () => {
                             generate more qualified leads and accelerate AUM growth.
                         </p>
 
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                             <motion.div
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                             >
                                 <Link
                                     to="/contact"
-                                    className="inline-flex items-center px-10 py-5 bg-white text-ph text-lg font-medium rounded-lg hover:bg-gray-50 transition-all shadow-xl"
+                                    className="inline-flex items-center px-8 py-4 bg-white text-ph font-medium rounded-lg hover:bg-gray-50 transition-all shadow-lg"
                                 >
                                     <Calendar className="w-5 h-5 mr-2" />
                                     Schedule Strategy Call
@@ -51,7 +52,7 @@ const HomePageCTA = () => {
                             >
                                 <Link
                                     to="/pricing"
-                                    className="inline-flex items-center px-10 py-5 bg-transparent text-white text-lg font-medium rounded-lg border-2 border-white hover:bg-white/10 transition-all"
+                                    className="inline-flex items-center px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-medium rounded-lg border-2 border-white/30 hover:bg-white/20 transition-all"
                                 >
                                     View Packages & Pricing
                                     <ArrowRight className="w-5 h-5 ml-2" />
@@ -59,8 +60,8 @@ const HomePageCTA = () => {
                             </motion.div>
                         </div>
 
-                        <p className="text-sm text-white/70 mt-10">
-                            No obligation. Get a custom proposal based on your firm's specific needs and growth goals.
+                        <p className="text-sm text-white/70 mt-8">
+                            No obligation. Get a custom proposal based on your firm's specific needs.
                         </p>
                     </motion.div>
                 </div>

@@ -8,6 +8,8 @@ import AboutStory from "@/components/about/AboutStory";
 import TeamSection from "@/components/about/TeamSection";
 import ExpertiseSection from "@/components/about/ExpertiseSection";
 import ValuesSection from "@/components/about/ValuesSection";
+import AwardsSection from "@/components/about/AwardsSection";
+import CultureSection from "@/components/about/CultureSection";
 import AcumenGroup from "@/components/about/AcumenGroup";
 import AboutCTA from "@/components/about/AboutCTA";
 
@@ -40,28 +42,27 @@ const About = () => {
 
             {/* Page Sections */}
             <AboutHero />
-
-            {/* Visual section divider - subtle animated line */}
             <SectionDivider />
 
             <AboutStory />
-
             <SectionDivider />
 
             <TeamSection />
-
             <SectionDivider />
 
             <ExpertiseSection />
-
             <SectionDivider />
 
             <ValuesSection />
+            <SectionDivider />
 
+            <AwardsSection />
+            <SectionDivider />
+
+            <CultureSection />
             <SectionDivider />
 
             <AcumenGroup />
-
             <SectionDivider />
 
             <AboutCTA />

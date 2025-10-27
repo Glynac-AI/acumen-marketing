@@ -8,11 +8,12 @@ import {
     Star,
     TrendingUp,
     Users,
-    Zap
+    Zap,
+    Shield
 } from "lucide-react";
 
 const RetainerPlans = () => {
-    // Retainer plan details - UPDATED FROM DRAFT
+    // Retainer plan details - FROM DRAFT
     const retainerPlans = [
         {
             name: "Starter Package",
@@ -22,6 +23,7 @@ const RetainerPlans = () => {
             period: "per month",
             minTerm: "90-day initial commitment",
             highlight: false,
+            icon: <Users className="w-6 h-6" />,
             description: "Perfect for small RIAs & IARs looking to establish a strong digital presence and begin generating qualified leads.",
             features: [
                 { label: "Expected MQLs", value: "15-25 qualified leads", highlight: true },
@@ -47,6 +49,8 @@ const RetainerPlans = () => {
             period: "per month",
             minTerm: "90-day initial commitment",
             highlight: true,
+            icon: <TrendingUp className="w-6 h-6" />,
+            badge: "Most Popular",
             description: "Ideal for growing Family Offices seeking significant growth through multi-channel strategies.",
             features: [
                 { label: "Expected MQLs", value: "40-60 qualified leads", highlight: true },
@@ -72,6 +76,7 @@ const RetainerPlans = () => {
             period: "per month",
             minTerm: "90-day initial commitment",
             highlight: false,
+            icon: <Zap className="w-6 h-6" />,
             description: "Built for large RIAs & Custodians with ambitious growth targets and sophisticated needs.",
             features: [
                 { label: "Expected MQLs", value: "80-120 qualified leads", highlight: true },
@@ -92,214 +97,195 @@ const RetainerPlans = () => {
     ];
 
     return (
-        <div className="container mx-auto px-6 py-24">
-            <div className="max-w-7xl mx-auto">
-                {/* Package comparison grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-                    {retainerPlans.map((plan, index) => (
-                        <motion.div
-                            key={index}
-                            className={`relative bg-white border-2 rounded-lg overflow-hidden ${plan.highlight
-                                    ? "border-ph shadow-2xl shadow-ph/10 scale-105"
-                                    : "border-gray-200"
-                                }`}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: index * 0.1 }}
-                            whileHover={!plan.highlight ? { y: -5 } : {}}
-                        >
-                            {/* Popular badge */}
-                            {plan.highlight && (
-                                <div className="absolute top-0 right-0 bg-ph text-white text-xs font-medium px-4 py-1 rounded-bl-lg">
-                                    Most Popular
-                                </div>
-                            )}
+        <section className="py-24 bg-white relative">
+            <div className="container mx-auto px-6">
+                <div className="max-w-7xl mx-auto">
+                    {/* Section Header */}
+                    <motion.div
+                        className="text-center mb-16"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7 }}
+                    >
+                        <span className="text-sm font-medium text-ph tracking-wider uppercase mb-4 block">
+                            Monthly Retainer Packages
+                        </span>
+                        <h2 className="text-3xl md:text-4xl font-display font-light tracking-tight text-foreground mb-6">
+                            Comprehensive Marketing <span className="text-ph font-normal">Retainers</span>
+                        </h2>
+                        <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
+                            All packages include FINRA/SEC compliance, webinar funnel optimization, and monthly reporting
+                        </p>
 
-                            <div className="p-8">
-                                {/* Plan header */}
-                                <div className="mb-6">
+                        {/* Key Benefits Bar */}
+                        <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
+                            <div className="flex items-center">
+                                <CheckCircle className="w-4 h-4 text-ph mr-2" />
+                                <span>90-day initial commitment</span>
+                            </div>
+                            <div className="flex items-center">
+                                <CheckCircle className="w-4 h-4 text-ph mr-2" />
+                                <span>10% discount for annual prepayment</span>
+                            </div>
+                            <div className="flex items-center">
+                                <Shield className="w-4 h-4 text-ph mr-2" />
+                                <span>Performance guarantees by tier</span>
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* Package comparison grid */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+                        {retainerPlans.map((plan, index) => (
+                            <motion.div
+                                key={index}
+                                className={`relative bg-white border-2 rounded-xl overflow-hidden transition-all duration-300 ${plan.highlight
+                                        ? "border-ph shadow-2xl shadow-ph/10 scale-105"
+                                        : "border-gray-200 hover:border-ph/50 hover:shadow-xl"
+                                    }`}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, delay: index * 0.1 }}
+                            >
+                                {/* Badge for highlighted plan */}
+                                {plan.badge && (
+                                    <div className="absolute top-0 right-0 bg-ph text-white text-xs font-medium px-4 py-1 rounded-bl-lg">
+                                        {plan.badge}
+                                    </div>
+                                )}
+
+                                <div className="p-8">
+                                    {/* Icon */}
+                                    <div className={`w-12 h-12 rounded-lg flex items-center justify-center mb-4 ${plan.highlight ? "bg-ph text-white" : "bg-ph/10 text-ph"
+                                        }`}>
+                                        {plan.icon}
+                                    </div>
+
+                                    {/* Plan Name & Subtitle */}
                                     <h3 className="text-2xl font-display font-medium text-foreground mb-2">
                                         {plan.name}
                                     </h3>
-                                    <p className="text-sm text-muted-foreground mb-2">
-                                        {plan.subtitle}
-                                    </p>
-                                    <p className="text-xs text-ph font-medium">
-                                        {plan.aumRange}
-                                    </p>
-                                </div>
+                                    <p className="text-sm text-muted-foreground mb-2">{plan.subtitle}</p>
+                                    <p className="text-xs text-ph font-medium mb-6">{plan.aumRange}</p>
 
-                                {/* Pricing */}
-                                <div className="mb-6 pb-6 border-b border-gray-100">
-                                    <div className="flex items-baseline mb-2">
-                                        <span className="text-5xl font-display font-light text-foreground">
-                                            {plan.price}
-                                        </span>
-                                        <span className="text-lg text-muted-foreground ml-2">
-                                            {plan.period}
-                                        </span>
+                                    {/* Price */}
+                                    <div className="mb-6">
+                                        <div className="flex items-baseline mb-2">
+                                            <span className="text-4xl font-display font-light text-foreground">
+                                                {plan.price}
+                                            </span>
+                                            <span className="text-muted-foreground ml-2">{plan.period}</span>
+                                        </div>
+                                        <p className="text-xs text-muted-foreground">{plan.minTerm}</p>
                                     </div>
-                                    <p className="text-xs text-muted-foreground">
-                                        {plan.minTerm}
+
+                                    {/* Description */}
+                                    <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
+                                        {plan.description}
                                     </p>
-                                </div>
 
-                                {/* Description */}
-                                <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
-                                    {plan.description}
-                                </p>
-
-                                {/* Features list */}
-                                <ul className="space-y-3 mb-8">
-                                    {plan.features.map((feature, idx) => (
-                                        <li
-                                            key={idx}
-                                            className={`flex items-start text-sm ${feature.highlight ? "font-medium" : ""
-                                                }`}
-                                        >
-                                            <CheckCircle
-                                                className={`w-5 h-5 mr-3 flex-shrink-0 mt-0.5 ${feature.highlight ? "text-ph" : "text-gray-400"
+                                    {/* Features List */}
+                                    <div className="space-y-3 mb-8">
+                                        {plan.features.map((feature, idx) => (
+                                            <div
+                                                key={idx}
+                                                className={`flex items-start text-sm ${feature.highlight ? "font-medium" : ""
                                                     }`}
-                                            />
-                                            <div>
-                                                <span className="text-muted-foreground">
-                                                    {feature.label}:{" "}
-                                                </span>
-                                                <span
-                                                    className={
-                                                        feature.highlight
-                                                            ? "text-ph font-semibold"
-                                                            : "text-foreground"
-                                                    }
-                                                >
-                                                    {feature.value}
-                                                </span>
+                                            >
+                                                <CheckCircle
+                                                    className={`w-4 h-4 mr-3 flex-shrink-0 mt-0.5 ${feature.highlight ? "text-ph" : "text-gray-400"
+                                                        }`}
+                                                />
+                                                <div className="flex-1">
+                                                    <span className="text-muted-foreground">{feature.label}: </span>
+                                                    <span
+                                                        className={
+                                                            feature.highlight ? "text-foreground font-medium" : "text-muted-foreground"
+                                                        }
+                                                    >
+                                                        {feature.value}
+                                                    </span>
+                                                </div>
                                             </div>
-                                        </li>
-                                    ))}
-                                </ul>
-
-                                {/* CTA button */}
-                                <Link
-                                    to="/contact"
-                                    className={`block w-full text-center px-6 py-4 rounded-lg font-medium transition-all ${plan.highlight
-                                            ? "bg-ph text-white hover:bg-ph-dark shadow-lg shadow-ph/20"
-                                            : "bg-gray-50 text-foreground hover:bg-gray-100 border border-gray-200"
-                                        }`}
-                                >
-                                    {plan.cta}
-                                    <ArrowRight className="w-4 h-4 inline-block ml-2" />
-                                </Link>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
-
-                {/* Add-On Services Section - NEW FROM DRAFT */}
-                <motion.div
-                    className="bg-[#F8FAFF] rounded-lg p-8 border border-gray-100"
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.7 }}
-                >
-                    <div className="mb-6">
-                        <h3 className="text-2xl font-display font-light text-foreground mb-2">
-                            Add-On Services
-                        </h3>
-                        <p className="text-muted-foreground">
-                            Available for all packages to customize your marketing program
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {[
-                            {
-                                icon: <Zap className="w-5 h-5" />,
-                                title: "Custom Video Production",
-                                price: "$2,500 - $5,000"
-                            },
-                            {
-                                icon: <Users className="w-5 h-5" />,
-                                title: "Advanced ABM Campaigns",
-                                price: "$3,000/month"
-                            },
-                            {
-                                icon: <TrendingUp className="w-5 h-5" />,
-                                title: "Additional Platforms",
-                                price: "$1,500/platform/month"
-                            },
-                            {
-                                icon: <Star className="w-5 h-5" />,
-                                title: "PR Article Placement",
-                                price: "$1,000 - $2,500 per article"
-                            },
-                            {
-                                icon: <Users className="w-5 h-5" />,
-                                title: "Event Marketing Support",
-                                price: "Custom pricing"
-                            }
-                        ].map((addon, index) => (
-                            <motion.div
-                                key={index}
-                                className="bg-white p-6 rounded-lg border border-gray-100"
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
-                                whileHover={{ y: -3 }}
-                            >
-                                <div className="flex items-start mb-3">
-                                    <div className="w-10 h-10 rounded-full bg-ph/10 flex items-center justify-center text-ph mr-3 flex-shrink-0">
-                                        {addon.icon}
+                                        ))}
                                     </div>
-                                    <div>
-                                        <h4 className="font-medium text-foreground mb-1">
-                                            {addon.title}
-                                        </h4>
-                                        <p className="text-sm text-ph font-medium">
-                                            {addon.price}
-                                        </p>
-                                    </div>
+
+                                    {/* CTA Button */}
+                                    <Link
+                                        to="/contact"
+                                        className={`block w-full text-center py-3 px-6 rounded-lg font-medium transition-all ${plan.highlight
+                                                ? "bg-ph text-white hover:bg-ph-dark shadow-lg"
+                                                : "bg-gray-100 text-foreground hover:bg-ph hover:text-white"
+                                            }`}
+                                    >
+                                        {plan.cta}
+                                        <ArrowRight className="inline-block ml-2 w-4 h-4" />
+                                    </Link>
                                 </div>
                             </motion.div>
                         ))}
                     </div>
-                </motion.div>
 
-                {/* Payment & Commitment Section - UPDATED FROM DRAFT */}
-                <motion.div
-                    className="mt-12 text-center"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.7 }}
-                >
-                    <h4 className="text-lg font-medium text-foreground mb-4">
-                        Payment & Commitment
-                    </h4>
-                    <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm text-muted-foreground">
-                        <div className="flex items-center">
-                            <CheckCircle className="w-4 h-4 text-ph mr-2" />
-                            Monthly billing with 90-day initial commitment
+                    {/* Add-On Services Section */}
+                    <motion.div
+                        className="bg-[#F8FAFF] p-8 rounded-xl border border-gray-100"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7 }}
+                    >
+                        <div className="text-center mb-6">
+                            <h3 className="text-2xl font-display font-light text-foreground mb-3">
+                                Available <span className="text-ph font-normal">Add-On Services</span>
+                            </h3>
+                            <p className="text-muted-foreground">
+                                Enhance any package with these specialized services
+                            </p>
                         </div>
-                        <div className="flex items-center">
-                            <CheckCircle className="w-4 h-4 text-ph mr-2" />
-                            10% discount for annual prepayment
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {[
+                                { service: "Custom video production", price: "$2,500-$5,000" },
+                                { service: "Advanced ABM campaigns", price: "$3,000/month" },
+                                { service: "Additional platforms", price: "$1,500/platform/month" },
+                                { service: "PR article placement", price: "$1,000-$2,500 per article" },
+                                { service: "Event marketing support", price: "Custom pricing" }
+                            ].map((addon, index) => (
+                                <div key={index} className="flex items-start bg-white p-4 rounded-lg border border-gray-100">
+                                    <Star className="w-5 h-5 text-ph mr-3 flex-shrink-0 mt-0.5" />
+                                    <div>
+                                        <div className="font-medium text-foreground text-sm mb-1">{addon.service}</div>
+                                        <div className="text-xs text-muted-foreground">{addon.price}</div>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                        <div className="flex items-center">
-                            <CheckCircle className="w-4 h-4 text-ph mr-2" />
-                            Performance guarantees by tier
-                        </div>
-                        <div className="flex items-center">
-                            <CheckCircle className="w-4 h-4 text-ph mr-2" />
-                            Money-back guarantee terms
-                        </div>
-                    </div>
-                </motion.div>
+                    </motion.div>
+
+                    {/* Bottom CTA */}
+                    <motion.div
+                        className="text-center mt-12"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7 }}
+                    >
+                        <p className="text-muted-foreground mb-4">
+                            Not sure which package is right for your firm?
+                        </p>
+                        <Link
+                            to="/contact"
+                            className="inline-flex items-center px-6 py-3 bg-ph text-white font-medium rounded-lg hover:bg-ph-dark transition-all shadow-lg"
+                        >
+                            Schedule a Strategy Call
+                            <ArrowRight className="ml-2 w-5 h-5" />
+                        </Link>
+                    </motion.div>
+                </div>
             </div>
-        </div>
+        </section>
     );
 };
 
