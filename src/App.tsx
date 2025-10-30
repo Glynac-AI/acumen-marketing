@@ -11,6 +11,7 @@ import Contact from "@/pages/Contact";
 import Pricing from "@/pages/Pricing";
 import Approach from "@/pages/Approach";
 import Ecosystem from "@/pages/Ecosystem";
+import WhoWeServe from "@/pages/WhoWeServe";
 
 import { AnimationProvider } from './components/animations/AnimationProvider';
 import LenisProvider from "./components/animations/LenisProvider";
@@ -33,6 +34,7 @@ const App = () => (
                 <Route path="/ecosystem" element={<Ecosystem />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/who-we-serve" element={<WhoWeServe />} />
               </Routes>
             </main>
             <Footer />
