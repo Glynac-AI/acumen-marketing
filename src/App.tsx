@@ -15,6 +15,8 @@ import WhoWeServe from "@/pages/WhoWeServe";
 import CaseStudies from "@/pages/CaseStudies";
 import Blog from '@/pages/Blog';
 import BlogPost from '@/pages/BlogPost';
+import Careers from "@/pages/Careers";
+import JobDetail from "@/pages/JobDetail";
 
 import { AnimationProvider } from './components/animations/AnimationProvider';
 import LenisProvider from "./components/animations/LenisProvider";
@@ -41,6 +43,8 @@ const App = () => (
                 <Route path="/case-studies" element={<CaseStudies />} />
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/blog/:slug" element={<BlogPost />} />
+                <Route path="/careers" element={<Careers />} />
+                <Route path="/careers/:slug" element={<JobDetail />} />
               </Routes>
             </main>
             <Footer />

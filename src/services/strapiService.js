@@ -5,9 +5,20 @@ const WEBSITE_NAME = 'Acumen Labs'; // Change this for each website
 
 // Helper function to get full image URL
 export const getStrapiImageUrl = (imageData) => {
-    if (!imageData?.data?.attributes?.url) return null;
+    if (!imageData) return null;
 
-    const url = image?.url || image?.data?.attributes?.url;
+    // Handle nested structure 
+    let url = null;
+
+    if (imageData.data?.attributes?.url) {
+        // Nested structure from populate
+        url = imageData.data.attributes.url;
+    } else if (imageData.url) {
+        // Flat structure (direct image object)
+        url = imageData.url;
+    } else {
+        return null;
+    }
 
     // If URL starts with '/', it's a local upload - add Strapi base URL
     if (url.startsWith('/')) {
@@ -122,5 +133,81 @@ export const getRelatedPosts = async (category, currentSlug, limit = 3) => {
     } catch (error) {
         console.error('Error fetching related posts:', error);
         return [];
+    }
+};
+
+// Fetch all job postings for this website
+export const getJobPostings = async (department = null, status = 'Open') => {
+    try {
+        const params = new URLSearchParams({
+            'filters[website]': WEBSITE_NAME,
+            'filters[jobPositionstatus]': status,
+            'sort[0]': 'createdAt:desc',
+            'populate': '*'
+        });
+
+        // Add department filter if provided
+        if (department && department !== 'All') {
+            params.append('filters[department]', department);
+        }
+
+        const url = `${STRAPI_URL}/api/job-postings?${params.toString()}`;
+        console.log('Fetching jobs from:', url);
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('API Error:', errorData);
+            throw new Error('Failed to fetch job postings');
+        }
+
+        const data = await response.json();
+        console.log('Fetched jobs:', data.data);
+        return data.data;
+    } catch (error) {
+        console.error('Error fetching job postings:', error);
+        return [];
+    }
+};
+
+// Fetch single job posting by slug
+export const getJobPostingBySlug = async (slug) => {
+    try {
+        const params = new URLSearchParams({
+            'filters[slug]': slug,
+            'filters[website]': WEBSITE_NAME,
+            'populate': '*'
+        });
+
+        const response = await fetch(
+            `${STRAPI_URL}/api/job-postings?${params.toString()}`
+        );
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch job posting');
+        }
+
+        const data = await response.json();
+        return data.data[0] || null;
+    } catch (error) {
+        console.error('Error fetching job posting:', error);
+        return null;
+    }
+};
+
+// Fetch all departments (unique list)
+export const getJobDepartments = async () => {
+    try {
+        const jobs = await getJobPostings();
+        const departments = [...new Set(
+            jobs
+                .filter(job => job?.attributes?.department)
+                .map(job => job.attributes.department)
+        )];
+        return ['All', ...departments.filter(Boolean)];
+    } catch (error) {
+        console.error('Error fetching departments:', error);
+        return ['All'];
     }
 };
