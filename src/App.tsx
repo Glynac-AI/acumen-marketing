@@ -13,6 +13,8 @@ import Approach from "@/pages/Approach";
 import Ecosystem from "@/pages/Ecosystem";
 import WhoWeServe from "@/pages/WhoWeServe";
 import CaseStudies from "@/pages/CaseStudies";
+import Blog from '@/pages/Blog';
+import BlogPost from '@/pages/BlogPost';
 
 import { AnimationProvider } from './components/animations/AnimationProvider';
 import LenisProvider from "./components/animations/LenisProvider";
@@ -37,6 +39,8 @@ const App = () => (
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/who-we-serve" element={<WhoWeServe />} />
                 <Route path="/case-studies" element={<CaseStudies />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:slug" element={<BlogPost />} />
               </Routes>
             </main>
             <Footer />

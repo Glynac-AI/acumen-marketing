@@ -197,7 +197,7 @@ const ContactFAQ = () => {
                                 whileTap={{ scale: 0.98 }}
                             >
                                 <a
-                                    href="mailto:info@acumen-strategy.com"
+                                    href="mailto:info@acumen-labs.com"
                                     className="inline-flex items-center px-6 py-3 bg-white border border-gray-200 text-foreground font-medium transition-all"
                                 >
                                     Email Us Directly
