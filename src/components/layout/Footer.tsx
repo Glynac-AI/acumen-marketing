@@ -12,7 +12,7 @@ const Footer = () => {
                 {/* 5-Column Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
 
-                    {/* Column 1: Company */}
+                    {/* Column 1: Company - UPDATED */}
                     <div>
                         <h3 className="text-foreground font-semibold mb-5 text-sm uppercase tracking-wide">Company</h3>
                         <ul className="space-y-3">
@@ -24,6 +24,16 @@ const Footer = () => {
                             <li>
                                 <Link to="/ecosystem" className="text-muted-foreground hover:text-ph transition-colors text-sm">
                                     The Acumen Ecosystem
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/careers" className="text-muted-foreground hover:text-ph transition-colors text-sm">
+                                    Careers
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/press" className="text-muted-foreground hover:text-ph transition-colors text-sm">
+                                    Press & Media
                                 </Link>
                             </li>
                             <li>
@@ -71,41 +81,41 @@ const Footer = () => {
                         <h3 className="text-foreground font-semibold mb-5 text-sm uppercase tracking-wide">Who We Serve</h3>
                         <ul className="space-y-3">
                             <li>
-                                <Link to="/services#rias" className="text-muted-foreground hover:text-ph transition-colors text-sm">
+                                <Link to="/who-we-serve#rias" className="text-muted-foreground hover:text-ph transition-colors text-sm">
                                     Registered Investment Advisors (RIAs)
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/services#iars" className="text-muted-foreground hover:text-ph transition-colors text-sm">
+                                <Link to="/who-we-serve#iars" className="text-muted-foreground hover:text-ph transition-colors text-sm">
                                     Investment Advisor Representatives (IARs)
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/services#family-offices" className="text-muted-foreground hover:text-ph transition-colors text-sm">
+                                <Link to="/who-we-serve#family-offices" className="text-muted-foreground hover:text-ph transition-colors text-sm">
                                     Family Offices
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/services#custodians" className="text-muted-foreground hover:text-ph transition-colors text-sm">
+                                <Link to="/who-we-serve#custodians" className="text-muted-foreground hover:text-ph transition-colors text-sm">
                                     Custodians
                                 </Link>
                             </li>
                         </ul>
                     </div>
 
-                    {/* Column 4: Resources */}
+                    {/* Column 4: Resources - UPDATED */}
                     <div>
                         <h3 className="text-foreground font-semibold mb-5 text-sm uppercase tracking-wide">Resources</h3>
                         <ul className="space-y-3">
                             <li>
-                                <span className="text-muted-foreground/50 text-sm cursor-not-allowed">
+                                <Link to="/blog" className="text-muted-foreground hover:text-ph transition-colors text-sm">
                                     Blog
-                                </span>
+                                </Link>
                             </li>
                             <li>
-                                <span className="text-muted-foreground/50 text-sm cursor-not-allowed">
+                                <Link to="/case-studies" className="text-muted-foreground hover:text-ph transition-colors text-sm">
                                     Case Studies
-                                </span>
+                                </Link>
                             </li>
                             <li>
                                 <span className="text-muted-foreground/50 text-sm cursor-not-allowed">

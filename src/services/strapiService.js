@@ -211,3 +211,85 @@ export const getJobDepartments = async () => {
         return ['All'];
     }
 };
+
+
+// Fetch all press releases for this website
+export const getPressReleases = async () => {
+    try {
+        const params = new URLSearchParams({
+            'filters[publishStatus]': 'Published',
+            'sort[0]': 'releaseDate:desc',
+            'populate': '*'
+        });
+
+        const url = `${STRAPI_URL}/api/press-releases?${params.toString()}`;
+        console.log('Fetching press releases from:', url);
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('API Error:', errorData);
+            throw new Error('Failed to fetch press releases');
+        }
+
+        const data = await response.json();
+        console.log('Fetched press releases:', data.data);
+        return data.data;
+    } catch (error) {
+        console.error('Error fetching press releases:', error);
+        return [];
+    }
+};
+
+// Fetch single press release by slug
+export const getPressReleaseBySlug = async (slug) => {
+    try {
+        const params = new URLSearchParams({
+            'filters[slug]': slug,
+            'filters[publishStatus]': 'Published',
+            'populate': '*'
+        });
+
+        const response = await fetch(
+            `${STRAPI_URL}/api/press-releases?${params.toString()}`
+        );
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch press release');
+        }
+
+        const data = await response.json();
+        return data.data[0] || null;
+    } catch (error) {
+        console.error('Error fetching press release:', error);
+        return null;
+    }
+};
+
+// Fetch featured press releases
+export const getFeaturedPressReleases = async (limit = 3) => {
+    try {
+        const params = new URLSearchParams({
+            'filters[publishStatus]': 'Published',
+            'filters[featured]': true,
+            'sort[0]': 'releaseDate:desc',
+            'pagination[limit]': limit,
+            'populate': '*'
+        });
+
+        const response = await fetch(
+            `${STRAPI_URL}/api/press-releases?${params.toString()}`
+        );
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch featured press releases');
+        }
+
+        const data = await response.json();
+        return data.data;
+    } catch (error) {
+        console.error('Error fetching featured press releases:', error);
+        return [];
+    }
+};

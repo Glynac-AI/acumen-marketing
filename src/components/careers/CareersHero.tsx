@@ -5,7 +5,7 @@ import { Briefcase } from "lucide-react";
 
 const CareersHero = () => {
     return (
-        <section className="relative min-h-[70vh] flex items-center justify-center pt-32 pb-20 overflow-hidden">
+        <section className="relative min-h-[100vh] flex items-center justify-center pt-32 pb-20 overflow-hidden">
             {/* Background */}
             <div className="absolute inset-0 bg-gradient-to-br from-[#F8FAFF] via-white to-[#EDF3FF] z-0"></div>
 

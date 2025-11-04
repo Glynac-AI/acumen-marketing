@@ -39,7 +39,7 @@ const Navbar = () => {
         return location.pathname === path;
     };
 
-    // Simplified main navigation (5 items max)
+    // Main navigation
     const mainNavLinks = [
         { name: "Services", path: "/services" },
         { name: "Pricing", path: "/pricing" },
@@ -47,17 +47,30 @@ const Navbar = () => {
         { name: "Company", path: "#", hasDropdown: true }
     ];
 
-    // Company dropdown items
+    // Company dropdown - 2 COLUMNS
     const companyDropdownLinks = [
-        { name: "About Us", path: "/about" },
-        { name: "The Acumen Ecosystem", path: "/ecosystem" },
-        { name: "Contact", path: "/contact" }
+        // Column 1
+        [
+            { name: "About Us", path: "/about" },
+            { name: "The Acumen Ecosystem", path: "/ecosystem" },
+            { name: "Who We Serve", path: "/who-we-serve" },
+            { name: "Case Studies", path: "/case-studies" }
+        ],
+        // Column 2
+        [
+            { name: "Blog", path: "/blog" },
+            { name: "Careers", path: "/careers" },
+            { name: "Press & Media", path: "/press" },
+            { name: "Contact", path: "/contact" }
+        ]
     ];
 
     return (
         <>
             <header
-                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'py-4 bg-white/95 backdrop-blur-md shadow-sm' : 'py-6 bg-white/80 backdrop-blur-sm'
+                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+                        ? 'py-4 bg-white/95 backdrop-blur-md shadow-sm'
+                        : 'py-6 bg-white/80 backdrop-blur-sm'
                     }`}
             >
                 <div className="container mx-auto px-6 flex justify-between items-center">
@@ -87,38 +100,44 @@ const Navbar = () => {
                                         onMouseLeave={() => setShowCompanyDropdown(false)}
                                     >
                                         <button
-                                            className={`flex items-center navbar-link ${['/about', '/ecosystem', '/contact'].includes(location.pathname)
-                                                    ? 'active-link'
-                                                    : ''
+                                            className={`flex items-center navbar-link ${['/about', '/ecosystem', '/who-we-serve', '/case-studies', '/blog', '/careers', '/press', '/contact'].includes(location.pathname)
+                                                    ? 'text-ph'
+                                                    : 'text-foreground'
                                                 }`}
                                         >
                                             {link.name}
                                             <ChevronDown className="w-4 h-4 ml-1" />
                                         </button>
 
-                                        {/* Dropdown Menu */}
                                         <AnimatePresence>
                                             {showCompanyDropdown && (
                                                 <motion.div
-                                                    initial={{ opacity: 0, y: 10 }}
+                                                    className="absolute top-full mt-2 w-[32rem] max-w-[calc(100vw-3rem)] bg-white rounded-lg shadow-xl border border-gray-100 py-3 z-50"
+                                                    style={{ right: '50%', transform: 'translateX(50%)' }}
+                                                    initial={{ opacity: 0, y: -10 }}
                                                     animate={{ opacity: 1, y: 0 }}
-                                                    exit={{ opacity: 0, y: 10 }}
+                                                    exit={{ opacity: 0, y: -10 }}
                                                     transition={{ duration: 0.2 }}
-                                                    className="absolute top-full left-0 mt-2 w-56 bg-white border border-gray-200 shadow-lg rounded-lg overflow-hidden"
                                                 >
-                                                    {companyDropdownLinks.map((item) => (
-                                                        <Link
-                                                            key={item.path}
-                                                            to={item.path}
-                                                            className={`block px-4 py-3 text-sm transition-colors ${isActive(item.path)
-                                                                    ? 'bg-ph/5 text-ph'
-                                                                    : 'text-foreground hover:bg-gray-50'
-                                                                }`}
-                                                            onClick={() => setShowCompanyDropdown(false)}
-                                                        >
-                                                            {item.name}
-                                                        </Link>
-                                                    ))}
+                                                    <div className="grid grid-cols-2 gap-x-2">
+                                                        {companyDropdownLinks.map((column, colIndex) => (
+                                                            <div key={colIndex} className={colIndex === 0 ? "border-r border-gray-100 pr-2" : "pl-2"}>
+                                                                {column.map((item) => (
+                                                                    <Link
+                                                                        key={item.path}
+                                                                        to={item.path}
+                                                                        className={`block px-4 py-3 text-sm transition-colors rounded-md ${isActive(item.path)
+                                                                                ? 'bg-ph/5 text-ph'
+                                                                                : 'text-foreground hover:bg-gray-50'
+                                                                            }`}
+                                                                        onClick={() => setShowCompanyDropdown(false)}
+                                                                    >
+                                                                        {item.name}
+                                                                    </Link>
+                                                                ))}
+                                                            </div>
+                                                        ))}
+                                                    </div>
                                                 </motion.div>
                                             )}
                                         </AnimatePresence>
@@ -166,9 +185,9 @@ const Navbar = () => {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: "100%" }}
                         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                        className="fixed inset-0 z-40 lg:hidden bg-white"
+                        className="fixed inset-0 z-40 lg:hidden bg-white overflow-y-auto"
                     >
-                        <div className="flex flex-col items-start justify-center h-full space-y-6 px-8 pt-20">
+                        <div className="flex flex-col items-start justify-start h-full space-y-6 px-8 pt-24 pb-8">
                             {/* Mobile main links */}
                             {mainNavLinks.map((link, index) => (
                                 <motion.div
@@ -183,13 +202,13 @@ const Navbar = () => {
                                             <div className="text-xl font-light text-muted-foreground">
                                                 {link.name}
                                             </div>
-                                            <div className="pl-4 space-y-3 border-l-2 border-ph/20">
-                                                {companyDropdownLinks.map((item) => (
+                                            <div className="grid grid-cols-2 gap-x-4 gap-y-2 pl-4 border-l-2 border-ph/20">
+                                                {companyDropdownLinks.flat().map((item) => (
                                                     <Link
                                                         key={item.path}
                                                         to={item.path}
                                                         onClick={closeMenu}
-                                                        className={`block text-lg ${isActive(item.path) ? 'text-ph' : 'text-foreground'
+                                                        className={`block text-base ${isActive(item.path) ? 'text-ph' : 'text-foreground'
                                                             }`}
                                                     >
                                                         {item.name}
@@ -214,12 +233,12 @@ const Navbar = () => {
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: mainNavLinks.length * 0.1 }}
-                                className="pt-4"
+                                className="pt-4 w-full"
                             >
                                 <Link
                                     to="/contact"
                                     onClick={closeMenu}
-                                    className="button-primary text-lg px-8 py-3"
+                                    className="button-primary text-lg px-8 py-3 inline-block"
                                 >
                                     Book Strategy Call
                                 </Link>

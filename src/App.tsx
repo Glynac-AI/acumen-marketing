@@ -17,6 +17,8 @@ import Blog from '@/pages/Blog';
 import BlogPost from '@/pages/BlogPost';
 import Careers from "@/pages/Careers";
 import JobDetail from "@/pages/JobDetail";
+import Press from "@/pages/Press";
+import PressReleaseDetail from "@/pages/PressReleaseDetail";
 
 import { AnimationProvider } from './components/animations/AnimationProvider';
 import LenisProvider from "./components/animations/LenisProvider";
@@ -45,6 +47,8 @@ const App = () => (
                 <Route path="/blog/:slug" element={<BlogPost />} />
                 <Route path="/careers" element={<Careers />} />
                 <Route path="/careers/:slug" element={<JobDetail />} />
+                <Route path="/press" element={<Press />} /> 
+                <Route path="/press/:slug" element={<PressReleaseDetail />} />
               </Routes>
             </main>
             <Footer />
