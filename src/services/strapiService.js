@@ -1,38 +1,47 @@
 // src/services/strapiService.js
 
 const STRAPI_URL = import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337';
-const WEBSITE_NAME = 'Acumen Labs'; // Change this for each website
+const STRAPI_TOKEN = import.meta.env.VITE_STRAPI_TOKEN || '';
+const WEBSITE_NAME = 'Acumen Labs';
+
+// Helper function to create authenticated fetch headers
+const getAuthHeaders = () => {
+    const headers = {
+        'Content-Type': 'application/json',
+    };
+
+    // Add bearer token if available
+    if (STRAPI_TOKEN) {
+        headers['Authorization'] = `Bearer ${STRAPI_TOKEN}`;
+    }
+
+    return headers;
+};
 
 // Helper function to get full image URL
 export const getStrapiImageUrl = (imageData) => {
     if (!imageData) return null;
 
-    // Handle nested structure 
     let url = null;
 
     if (imageData.data?.attributes?.url) {
-        // Nested structure from populate
         url = imageData.data.attributes.url;
     } else if (imageData.url) {
-        // Flat structure (direct image object)
         url = imageData.url;
     } else {
         return null;
     }
 
-    // If URL starts with '/', it's a local upload - add Strapi base URL
     if (url.startsWith('/')) {
         return `${STRAPI_URL}${url}`;
     }
 
-    // If absolute URL (S3, etc.), return as-is
     return url;
 };
 
 // Fetch all blog posts for this website
 export const getBlogPosts = async (category = null) => {
     try {
-        // Using publishStatus instead of status
         const params = new URLSearchParams({
             'filters[website]': WEBSITE_NAME,
             'filters[publishStatus]': 'Published',
@@ -40,15 +49,15 @@ export const getBlogPosts = async (category = null) => {
             'populate': '*'
         });
 
-        // Add category filter if provided
         if (category && category !== 'All') {
             params.append('filters[category]', category);
         }
 
         const url = `${STRAPI_URL}/api/blog-posts?${params.toString()}`;
-        console.log('Fetching from:', url); // Debug log
 
-        const response = await fetch(url);
+        const response = await fetch(url, {
+            headers: getAuthHeaders(),
+        });
 
         if (!response.ok) {
             const errorData = await response.json();
@@ -57,7 +66,6 @@ export const getBlogPosts = async (category = null) => {
         }
 
         const data = await response.json();
-        console.log('Fetched posts:', data.data); // Debug log
         return data.data;
     } catch (error) {
         console.error('Error fetching blog posts:', error);
@@ -76,7 +84,10 @@ export const getBlogPostBySlug = async (slug) => {
         });
 
         const response = await fetch(
-            `${STRAPI_URL}/api/blog-posts?${params.toString()}`
+            `${STRAPI_URL}/api/blog-posts?${params.toString()}`,
+            {
+                headers: getAuthHeaders(),
+            }
         );
 
         if (!response.ok) {
@@ -91,23 +102,23 @@ export const getBlogPostBySlug = async (slug) => {
     }
 };
 
-// Fetch all categories (unique list)
+// Fetch all categories
 export const getBlogCategories = async () => {
-  try {
-    const posts = await getBlogPosts();
-    const categories = [...new Set(
-      posts
-        .filter(post => post?.attributes?.category) // Filter out posts without category
-        .map(post => post.attributes.category)
-    )];
-    return ['All', ...categories.filter(Boolean)];
-  } catch (error) {
-    console.error('Error fetching categories:', error);
-    return ['All'];
-  }
+    try {
+        const posts = await getBlogPosts();
+        const categories = [...new Set(
+            posts
+                .filter(post => post?.attributes?.category)
+                .map(post => post.attributes.category)
+        )];
+        return ['All', ...categories.filter(Boolean)];
+    } catch (error) {
+        console.error('Error fetching categories:', error);
+        return ['All'];
+    }
 };
 
-// Fetch related posts (same category, exclude current post)
+// Fetch related posts
 export const getRelatedPosts = async (category, currentSlug, limit = 3) => {
     try {
         const params = new URLSearchParams({
@@ -121,7 +132,10 @@ export const getRelatedPosts = async (category, currentSlug, limit = 3) => {
         });
 
         const response = await fetch(
-            `${STRAPI_URL}/api/blog-posts?${params.toString()}`
+            `${STRAPI_URL}/api/blog-posts?${params.toString()}`,
+            {
+                headers: getAuthHeaders(),
+            }
         );
 
         if (!response.ok) {
@@ -136,84 +150,7 @@ export const getRelatedPosts = async (category, currentSlug, limit = 3) => {
     }
 };
 
-// Fetch all job postings for this website
-export const getJobPostings = async (department = null, status = 'Open') => {
-    try {
-        const params = new URLSearchParams({
-            'filters[website]': WEBSITE_NAME,
-            'filters[jobPositionstatus]': status,
-            'sort[0]': 'createdAt:desc',
-            'populate': '*'
-        });
-
-        // Add department filter if provided
-        if (department && department !== 'All') {
-            params.append('filters[department]', department);
-        }
-
-        const url = `${STRAPI_URL}/api/job-postings?${params.toString()}`;
-        console.log('Fetching jobs from:', url);
-
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error('API Error:', errorData);
-            throw new Error('Failed to fetch job postings');
-        }
-
-        const data = await response.json();
-        console.log('Fetched jobs:', data.data);
-        return data.data;
-    } catch (error) {
-        console.error('Error fetching job postings:', error);
-        return [];
-    }
-};
-
-// Fetch single job posting by slug
-export const getJobPostingBySlug = async (slug) => {
-    try {
-        const params = new URLSearchParams({
-            'filters[slug]': slug,
-            'filters[website]': WEBSITE_NAME,
-            'populate': '*'
-        });
-
-        const response = await fetch(
-            `${STRAPI_URL}/api/job-postings?${params.toString()}`
-        );
-
-        if (!response.ok) {
-            throw new Error('Failed to fetch job posting');
-        }
-
-        const data = await response.json();
-        return data.data[0] || null;
-    } catch (error) {
-        console.error('Error fetching job posting:', error);
-        return null;
-    }
-};
-
-// Fetch all departments (unique list)
-export const getJobDepartments = async () => {
-    try {
-        const jobs = await getJobPostings();
-        const departments = [...new Set(
-            jobs
-                .filter(job => job?.attributes?.department)
-                .map(job => job.attributes.department)
-        )];
-        return ['All', ...departments.filter(Boolean)];
-    } catch (error) {
-        console.error('Error fetching departments:', error);
-        return ['All'];
-    }
-};
-
-
-// Fetch all press releases for this website
+// Fetch all press releases
 export const getPressReleases = async () => {
     try {
         const params = new URLSearchParams({
@@ -223,9 +160,10 @@ export const getPressReleases = async () => {
         });
 
         const url = `${STRAPI_URL}/api/press-releases?${params.toString()}`;
-        console.log('Fetching press releases from:', url);
 
-        const response = await fetch(url);
+        const response = await fetch(url, {
+            headers: getAuthHeaders(),
+        });
 
         if (!response.ok) {
             const errorData = await response.json();
@@ -234,7 +172,6 @@ export const getPressReleases = async () => {
         }
 
         const data = await response.json();
-        console.log('Fetched press releases:', data.data);
         return data.data;
     } catch (error) {
         console.error('Error fetching press releases:', error);
@@ -252,7 +189,10 @@ export const getPressReleaseBySlug = async (slug) => {
         });
 
         const response = await fetch(
-            `${STRAPI_URL}/api/press-releases?${params.toString()}`
+            `${STRAPI_URL}/api/press-releases?${params.toString()}`,
+            {
+                headers: getAuthHeaders(),
+            }
         );
 
         if (!response.ok) {
@@ -279,7 +219,10 @@ export const getFeaturedPressReleases = async (limit = 3) => {
         });
 
         const response = await fetch(
-            `${STRAPI_URL}/api/press-releases?${params.toString()}`
+            `${STRAPI_URL}/api/press-releases?${params.toString()}`,
+            {
+                headers: getAuthHeaders(),
+            }
         );
 
         if (!response.ok) {
@@ -291,5 +234,83 @@ export const getFeaturedPressReleases = async (limit = 3) => {
     } catch (error) {
         console.error('Error fetching featured press releases:', error);
         return [];
+    }
+};
+
+// Fetch all job postings
+export const getJobPostings = async (department = null, status = 'Open') => {
+    try {
+        const params = new URLSearchParams({
+            'filters[website]': WEBSITE_NAME,
+            'filters[jobPositionstatus]': status,
+            'sort[0]': 'createdAt:desc',
+            'populate': '*'
+        });
+
+        if (department && department !== 'All') {
+            params.append('filters[department]', department);
+        }
+
+        const url = `${STRAPI_URL}/api/job-postings?${params.toString()}`;
+
+        const response = await fetch(url, {
+            headers: getAuthHeaders(),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('API Error:', errorData);
+            throw new Error('Failed to fetch job postings');
+        }
+
+        const data = await response.json();
+        return data.data;
+    } catch (error) {
+        console.error('Error fetching job postings:', error);
+        return [];
+    }
+};
+
+// Fetch single job posting by slug
+export const getJobPostingBySlug = async (slug) => {
+    try {
+        const params = new URLSearchParams({
+            'filters[slug]': slug,
+            'filters[website]': WEBSITE_NAME,
+            'populate': '*'
+        });
+
+        const response = await fetch(
+            `${STRAPI_URL}/api/job-postings?${params.toString()}`,
+            {
+                headers: getAuthHeaders(),
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch job posting');
+        }
+
+        const data = await response.json();
+        return data.data[0] || null;
+    } catch (error) {
+        console.error('Error fetching job posting:', error);
+        return null;
+    }
+};
+
+// Fetch all departments
+export const getJobDepartments = async () => {
+    try {
+        const jobs = await getJobPostings();
+        const departments = [...new Set(
+            jobs
+                .filter(job => job?.attributes?.department)
+                .map(job => job.attributes.department)
+        )];
+        return ['All', ...departments.filter(Boolean)];
+    } catch (error) {
+        console.error('Error fetching departments:', error);
+        return ['All'];
     }
 };
