@@ -18,7 +18,7 @@
 
 Acumen Labs is a sophisticated marketing website built for a wealth management marketing agency. The site showcases services, pricing packages, company approach, and integrates with a Strapi CMS for dynamic content (blogs, job postings, press releases).
 
-**Live Site**: [Your Production URL]
+**Live Site**: https://www.acumen-labs.com/
 
 ## 🛠️ Tech Stack
 
@@ -61,7 +61,7 @@ npm >= 6.0.0
 
 1. **Clone the repository**
 ```bash
-git clone <repository-url>
+git clone https://github.com/Glynac-AI/acumen-marketing
 cd acumen-marketing
 ```
 
